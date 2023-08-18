@@ -15,7 +15,7 @@
 #define DRADIS_FOLDER "/DRADIS"
 #define DRADIS_LOGO   "/BattlestarGalactica.png"
 #define DRADIS_WAV    "/DRADIS.wav"
-#define DRADIS_VIDEO  "/loop.mjpg"
+#define DRADIS_VIDEO  "/loopGrey.mjpg"
 
 #define TFT_DRADIS M5.Displays(0).color565(16, 16, 16)
 
