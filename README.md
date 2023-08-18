@@ -43,6 +43,10 @@ Many thanks to...
 | JPEGDEC             | Larry Bank                                            | https://github.com/bitbank2/JPEGDEC             |
 | FastLED             | FastLED                                               | https://github.com/FastLED/FastLED              |
 
+Battlestar Galactica and all related objects are the property of Universal.
+
+This project was created for purely recreational and geek purposes and MUST NOT be used in any project which will result in financial gain through their use. By the way, attempts to make money though use of this project will likely result in legal action courtesy of Universal, and won't exactly make you my favorite person, either. YOU HAVE BEEN WARNED.
+
 # Donations
 
 Special thanks to Rolf Schroeder DL8BAG, Brian Garber WB8AM, Matt B-Wilkinson M6VWM, Robert Agnew KD0TVP, Meinhard Frank Günther DL0CN, Johan Hansson SM0TSC, Tadeusz Pater VA7CPM, Frederic Ulmer F4ESO, Joshua Murray M0JMO, Mark Hammond N8MH, Angel Mateu Muzzio EA4GIG, Hiroshi Sasaki JL7KGW, Robert John Williams VK3IE, Mark Bumstead M0IAX, Félix Symann F1VEO, Patrick Ruhl DG2YRP, Michael Beck DH5DAX, Philippe Nicolas F4IQP, Timothy Nustad KD9KHZ, Martin Blanz DL9SAD, Edmund Thompson AE4TQ, Gregory Kiyoi KN6RUQ, Patrick Samson F6GWE, George Kokolakis SV3QUP, Ambrose "Bo" Barry W4GHV, Roger Bouche F1HCN, Christopher Platt, Pascal Paquet F4ICR, Gregory Kiyoi, Ning Yang BH7JAG, Mitsuhiko Nagasawa JL1LYT, Mike Mann G4GOC, David Cappello, Matt Brinkhoff KB0RXC, Franklin Beider WD9GZ, Robrecht Laurens ON4ROB, Florian Wolters DF2ET and James Gatwood WA9JG for their donations. That’s so kind of them. Thanks so much 🙏🏻
