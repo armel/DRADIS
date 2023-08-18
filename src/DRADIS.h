@@ -57,14 +57,14 @@ int16_t raptorX, raptorY;
 int16_t raiderX, raiderY;
 int16_t unknownX, unknownY;
 
-int8_t viperStep = false;
-int8_t raptorStep = false;
-int8_t raiderStep = false;
+int8_t viperStep   = false;
+int8_t raptorStep  = false;
+int8_t raiderStep  = false;
 int8_t unknownStep = false;
 
-boolean viperView = false;
-boolean raptorView = false;
-boolean raiderView = false;
+boolean viperView   = false;
+boolean raptorView  = false;
+boolean raiderView  = false;
 boolean unknownView = false;
 
 boolean wav = false;
@@ -74,7 +74,7 @@ boolean wav = false;
 #define NUM_LEDS 10
 CRGB leds[NUM_LEDS];
 
-int8_t ledOn = 0;
+int8_t ledOn        = 0;
 int8_t ledDirection = 1;
 
 // Variables

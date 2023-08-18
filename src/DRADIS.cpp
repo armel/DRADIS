@@ -35,7 +35,7 @@ void setup() {
 
   // Preferences
   preferences.begin(NAME);
-  brightness    = preferences.getUInt("brightness", BRIGHTNESS);
+  brightness = preferences.getUInt("brightness", BRIGHTNESS);
 
   // Debug trace
   Serial.printf("Brightness = %d\n", brightness);
@@ -57,52 +57,62 @@ void setup() {
   // Init Sprite
   viperSprite.setColorDepth(8);
   viperSprite.createSprite(17, 20);
-  viperSprite.setPaletteColor(1, 0xFF0000U);    // Set palette
+  viperSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   viperSprite.drawPng(viper, sizeof(viper), 0, 0, 17, 20);
 
   viperLabelSprite.setColorDepth(8);
   viperLabelSprite.createSprite(34, 10);
-  viperLabelSprite.setPaletteColor(1, 0xFF0000U);    // Set palette
+  viperLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   viperLabelSprite.drawString("Vipers", 0, 0);
 
   raptorSprite.setColorDepth(8);
   raptorSprite.createSprite(17, 20);
-  raptorSprite.setPaletteColor(1, 0xFF0000U);    // Set palette
+  raptorSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raptorSprite.drawPng(raptor, sizeof(raptor), 0, 0, 17, 20);
 
   raptorLabelSprite.setColorDepth(8);
   raptorLabelSprite.createSprite(40, 10);
-  raptorLabelSprite.setPaletteColor(1, 0xFF0000U);    // Set palette
+  raptorLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raptorLabelSprite.drawString("Raptors", 0, 0);
 
   raiderSprite.setColorDepth(8);
   raiderSprite.createSprite(19, 20);
-  raiderSprite.setPaletteColor(1, 0xFF0000U);    // Set palette
+  raiderSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raiderSprite.drawPng(raider, sizeof(raider), 0, 0, 19, 20);
 
   raiderLabelSprite.setColorDepth(8);
   raiderLabelSprite.createSprite(40, 10);
-  raiderLabelSprite.setPaletteColor(1, 0xFF0000U);    // Set palette
+  raiderLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raiderLabelSprite.drawString("Raiders", 0, 0);
 
   unknownSprite.setColorDepth(8);
   unknownSprite.createSprite(19, 20);
-  unknownSprite.setPaletteColor(1, 0xFF0000U);    // Set palette
+  unknownSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   unknownSprite.drawPng(unknown, sizeof(unknown), 0, 0, 19, 20);
 
   unknownLabelSprite.setColorDepth(8);
   unknownLabelSprite.createSprite(40, 10);
-  unknownLabelSprite.setPaletteColor(1, 0xFF0000U);    // Set palette
+  unknownLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   unknownLabelSprite.drawString("Unkown", 0, 0);
+
+  // Init Sound
+  auto spk_cfg = M5.Speaker.config();
+
+  M5.Speaker.setVolume(128);
+
+  if (spk_cfg.use_dac || spk_cfg.buzzer) {
+    /// Increasing the sample_rate will improve the sound quality instead of increasing the CPU load.
+    spk_cfg.sample_rate =
+      192000;  // default:64000 (64kHz)  e.g. 48000 , 50000 , 80000 , 96000 , 100000 , 128000 , 144000 , 192000 , 200000
+  }
+  M5.Speaker.config(spk_cfg);
 
   for (uint8_t d = 0; d < displayCount; d++) {
     char string[64];
 
     if (!LittleFS.begin()) {
       Serial.println(F("ERROR: File System Mount Failed!"));
-    }
-    else
-    {
+    } else {
       M5.Displays(d).drawPngFile(LittleFS, DRADIS_LOGO, 0, 120, 320, 90);
     }
 
@@ -117,19 +127,9 @@ void setup() {
     M5.Displays(d).drawString(string, 160, 35);
   }
 
+  playWav(DRADIS_WAV);
+
   delay(2000);
-
-  // Init Sound
-  auto spk_cfg = M5.Speaker.config();
-
-  if (spk_cfg.use_dac || spk_cfg.buzzer) {
-    /// Increasing the sample_rate will improve the sound quality instead of increasing the CPU load.
-    spk_cfg.sample_rate =
-      192000;  // default:64000 (64kHz)  e.g. 48000 , 50000 , 80000 , 96000 , 100000 , 128000 , 144000 , 192000 , 200000
-  }
-  M5.Speaker.config(spk_cfg);
-
-  // M5.Speaker.begin();
 
   M5.Displays(0).setBrightness(brightness);
   M5.Displays(0).fillScreen(TFT_DRADIS);
@@ -147,12 +147,11 @@ void setup() {
 
   xTaskCreatePinnedToCore(cylon,    // Function to implement the task
                           "cylon",  // Name of the task
-                          8192,      // Stack size in words
-                          NULL,      // Task input parameter
-                          4,         // Priority of the task
-                          NULL,      // Task handle
-                          1);        // Core where the task should run
-
+                          8192,     // Stack size in words
+                          NULL,     // Task input parameter
+                          4,        // Priority of the task
+                          NULL,     // Task handle
+                          1);       // Core where the task should run
 }
 
 // Main loop

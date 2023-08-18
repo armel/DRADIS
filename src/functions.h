@@ -11,23 +11,29 @@ static int mjpegDrawCallback(JPEGDRAW *pDraw) {
 }
 
 // Fade all led
-void fadeall() { for(int i = 0; i < NUM_LEDS; i++) { leds[i].nscale8(100); } }
+void fadeall() {
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i].nscale8(100);
+  }
+}
 
-// Cylon 
-void cylon(void *pvParameters) { 
+// Cylon
+void cylon(void *pvParameters) {
   for (;;) {
     // First slide the led in one direction
-    for(int i = 0; i < NUM_LEDS; i++) {
-      leds[i] = CRGB::Red;;
+    for (int i = 0; i < NUM_LEDS; i++) {
+      leds[i] = CRGB::Red;
+      ;
       // Show the leds
-      FastLED.show(); 
+      FastLED.show();
       fadeall();
       vTaskDelay(pdMS_TO_TICKS(50));
     }
 
-    // Now go in the other direction.  
-    for(int i = (NUM_LEDS)-1; i >= 0; i--) {
-      leds[i] = CRGB::Red;;
+    // Now go in the other direction.
+    for (int i = (NUM_LEDS)-1; i >= 0; i--) {
+      leds[i] = CRGB::Red;
+      ;
       FastLED.show();
       fadeall();
       vTaskDelay(pdMS_TO_TICKS(50));
@@ -83,22 +89,22 @@ void button(void *pvParameters) {
 
     if (counter == 0) {
       viperView = random(0, 2);
-      viperX = random(-40, 40);
-      viperY = random(-40, 40);
+      viperX    = random(-40, 40);
+      viperY    = random(-40, 40);
       viperStep = random(-1, 2);
 
       raptorView = random(0, 2);
-      raptorX = random(-10, 10);
-      raptorY = random(-10, 10);
+      raptorX    = random(-10, 10);
+      raptorY    = random(-10, 10);
       raptorStep = random(-1, 2);
 
       raiderView = random(0, 2);
-      raiderX = random(-20, 20);
-      raiderY = random(-20, 20);
+      raiderX    = random(-20, 20);
+      raiderY    = random(-20, 20);
       raiderStep = random(-1, 2);
 
-      unknownX  = random(-10, 10);
-      unknownY = random(-10, 10);
+      unknownX    = random(-10, 10);
+      unknownY    = random(-10, 10);
       unknownStep = random(-1, 2);
     }
 
@@ -166,11 +172,10 @@ void button(void *pvParameters) {
 
     if (btnB) {
       wav = true;
-    } else
-    {
+    } else {
       wav = false;
-    } 
-    
+    }
+
     if (btnA || btnC) {
       if (M5.getBoard() == m5::board_t::board_M5StackCoreS3) {
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -209,7 +214,6 @@ void led() {
   // raptorSprite.pushSprite( 0,  0, 0); // Draw sprite with palette color 0 transparent
 }
 
-
 // Video
 void video() {
   uint8_t *mjpegBuf = (uint8_t *)malloc(MJPEG_BUFFER_SIZE);
@@ -241,23 +245,20 @@ void video() {
           // Play video
           mjpegClass.drawJpg();
 
-          if(viperView)
-          {
+          if (viperView) {
             viperSprite.pushSprite(160 + viperX, 100 + viperY, 1);
             viperSprite.pushSprite(160 + viperX - 15, 100 + viperY + 15, 1);
             viperSprite.pushSprite(160 + viperX + 15, 100 + viperY + 15, 1);
             viperLabelSprite.pushSprite(160 + viperX - 8, 100 + viperY + 40, 1);
           }
 
-          if(raptorView)
-          {
+          if (raptorView) {
             raptorSprite.pushSprite(160 + raptorX - 10, 160 + raptorY, 1);
             raptorSprite.pushSprite(160 + raptorX + 10, 160 + raptorY, 1);
             raptorLabelSprite.pushSprite(160 + raptorX - 8, 160 + raptorY + 25, 1);
           }
 
-          if(raiderView)
-          {
+          if (raiderView) {
             raiderSprite.pushSprite(160 + raiderX, 40 + raiderY, 1);
             raiderSprite.pushSprite(160 + raiderX - 15, 40 + raiderY + 15, 1);
             raiderSprite.pushSprite(160 + raiderX + 15, 40 + raiderY + 15, 1);
@@ -265,8 +266,7 @@ void video() {
             raiderLabelSprite.pushSprite(160 + raiderX - 12, 40 + raiderY - 10, 1);
           }
 
-          if(!raiderView)
-          {
+          if (!raiderView) {
             unknownSprite.pushSprite(140 + unknownX, 40 + unknownY, 1);
             unknownLabelSprite.pushSprite(140 + unknownX - 8, 40 + unknownY - 10, 1);
           }
