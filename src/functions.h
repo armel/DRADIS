@@ -83,7 +83,7 @@ void button(void *pvParameters) {
   for (;;) {
     M5.update();
 
-    if (counter == 1500) {
+    if (counter == 600) {
       counter = 0;
     }
 
@@ -172,10 +172,6 @@ void button(void *pvParameters) {
 
     if (btnB) {
       wav = true;
-      if(theme == 1)
-        theme = 0;
-      else
-        theme = 1;
     } else {
       wav = false;
     }
@@ -240,13 +236,25 @@ void boot() {
 // Video
 void video() {
   uint8_t *mjpegBuf = (uint8_t *)malloc(MJPEG_BUFFER_SIZE);
-  char* filename;
+  char *filename;
 
   while (1) {
-    if(theme == 0)
-      filename = (char *)DRADIS_VIDEO_GREY;
-    else
-      filename = (char *)DRADIS_VIDEO_SEPIA;
+    switch (theme) {
+      case 0:
+        filename = (char *)DRADIS_VIDEO_GREY;
+        break;
+
+      case 1:
+        filename = (char *)DRADIS_VIDEO_BLUE;
+        break;
+
+      case 2:
+        filename = (char *)DRADIS_VIDEO_SEPIA;
+        break;
+
+      default:
+        break;
+    }
 
     if (LittleFS.exists(filename)) {
       Serial.printf("%s IS on LittleFS\n", filename);
@@ -298,9 +306,11 @@ void video() {
             unknownSprite.pushSprite(140 + unknownX, 40 + unknownY, 1);
             unknownLabelSprite.pushSprite(140 + unknownX - 8, 40 + unknownY - 10, 1);
           }
-        
+
           if (wav) {
             playWav(DRADIS_WAV);
+            theme++;
+            if (theme > 2) theme = 0;
             break;
           }
         }
