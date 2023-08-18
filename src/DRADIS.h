@@ -12,10 +12,11 @@
 #define CORES3 3
 
 // Others define
-#define DRADIS_FOLDER "/DRADIS"
-#define DRADIS_LOGO   "/BattlestarGalactica.png"
-#define DRADIS_WAV    "/DRADIS.wav"
-#define DRADIS_VIDEO  "/loopGrey.mjpg"
+#define DRADIS_FOLDER      "/DRADIS"
+#define DRADIS_LOGO        "/BattlestarGalactica.png"
+#define DRADIS_WAV         "/DRADIS.wav"
+#define DRADIS_VIDEO_GREY  "/loopGrey.mjpg"
+#define DRADIS_VIDEO_SEPIA "/loopSepia.mjpg"
 
 #define TFT_DRADIS M5.Displays(0).color565(16, 16, 16)
 
@@ -84,4 +85,5 @@ fs::File root;
 fs::File mjpegFile;
 
 uint8_t displayCount = 0;
+uint8_t theme        = 0;
 uint16_t brightness  = BRIGHTNESS;

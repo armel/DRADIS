@@ -172,6 +172,10 @@ void button(void *pvParameters) {
 
     if (btnB) {
       wav = true;
+      if(theme == 1)
+        theme = 0;
+      else
+        theme = 1;
     } else {
       wav = false;
     }
@@ -236,17 +240,22 @@ void boot() {
 // Video
 void video() {
   uint8_t *mjpegBuf = (uint8_t *)malloc(MJPEG_BUFFER_SIZE);
-  char filename[64];
+  char* filename;
 
   while (1) {
-    if (LittleFS.exists(DRADIS_VIDEO)) {
+    if(theme == 0)
+      filename = (char *)DRADIS_VIDEO_GREY;
+    else
+      filename = (char *)DRADIS_VIDEO_SEPIA;
+
+    if (LittleFS.exists(filename)) {
       Serial.printf("%s IS on LittleFS\n", filename);
-      mjpegFile = LittleFS.open(DRADIS_VIDEO, FILE_READ);
+      mjpegFile = LittleFS.open(filename, FILE_READ);
     }
 
     if (!mjpegFile || mjpegFile.isDirectory()) {
       Serial.print("ERROR: Failed to open ");
-      Serial.print(DRADIS_VIDEO);
+      Serial.print(filename);
       Serial.println(" file for reading");
     } else {
       // uint8_t *mjpegBuf = (uint8_t *)malloc(MJPEG_BUFFER_SIZE);
@@ -292,6 +301,7 @@ void video() {
         
           if (wav) {
             playWav(DRADIS_WAV);
+            break;
           }
         }
         Serial.println(F("MJPEG end"));
