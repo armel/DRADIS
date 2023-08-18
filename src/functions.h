@@ -166,10 +166,12 @@ void button(void *pvParameters) {
 
     if (btnB) {
       wav = true;
-    } else if(!btnB)
+    } else
     {
       wav = false;
-    } else if (btnA || btnC) {
+    } 
+    
+    if (btnA || btnC) {
       if (M5.getBoard() == m5::board_t::board_M5StackCoreS3) {
         vTaskDelay(pdMS_TO_TICKS(100));
       }
