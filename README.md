@@ -1,4 +1,4 @@
-# HAL9000
+# DRADIS
 ![basic](https://img.shields.io/badge/M5Stack-BASIC-blue)
 ![grey](https://img.shields.io/badge/M5Stack-GREY-blue)
 ![fire](https://img.shields.io/badge/M5Stack-FIRE-orange)
@@ -14,13 +14,11 @@
 
 **Many thanks to them and all my [donors](#donations)🙏🏻** 
 
-This project is a little [HAL9000](https://en.wikipedia.org/wiki/HAL_9000) simulator on M5Stack. Use cases ? None ! It's just for fun 😎 The challenge was to store 60 small videos directly in Flash memory. Special thanks to [Tobozo](https://twitter.com/TobozoTagada) for his [ESP32-targz](https://github.com/tobozo/ESP32-targz) library. It was a great help, so thank you dude 🤗
+This project is a little [DRADIS](https://en.battlestarwikiclone.org/wiki/DRADIS) simulator on M5Stack. Use cases ? None ! It's just for fun 😎 
 
 # Usage
 
-Use left and right buttons to adjust brightness. Use the middle button to hear HAL9000.
-
-You can optimize video loading times by using a simple micro SD card formatted in FAT32. After each decompression, the uncompressed video file will be saved on the SD card (in the `/HAL9000` folder). This uncompressed video file will be used for the next time.
+Use left and right buttons to adjust brightness. Use the middle button to hear [Cylon Eye Scanner](https://www.youtube.com/watch?v=dv3dUc_G4a0) and change theme (Grey, Blue, Sepia).
 
 # Compilation
 
@@ -40,9 +38,8 @@ Many thanks to...
 
 | Project             | Author                                                |  Link                                           |
 |:------------------- | :---------------------------------------------------- | :---------------------------------------------- |
-| The HAL Project     | Joe                                                   | https://www.youtube.com/@TheHALProject/featured |
+| DRADIS stuffs     | David Gian-Cursio and Matt Haley                                                   | https://www.gian-cursio.net/2007/02/dradis-icons/ |
 | M5Unified           | [Lovyan03](https://twitter.com/lovyan03)              | https://github.com/m5stack/M5Unified            |
-| ESP32-targz         | [Tobozo](https://twitter.com/TobozoTagada)            | https://github.com/tobozo/ESP32-targz           |
 | JPEGDEC             | Larry Bank                                            | https://github.com/bitbank2/JPEGDEC             |
 | FastLED             | FastLED                                               | https://github.com/FastLED/FastLED              |
 
