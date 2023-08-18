@@ -29,16 +29,14 @@ void setup() {
 
   M5.begin(cfg);
 
-  displayCount = M5.getDisplayCount();
-
-  Serial.printf("On start %d\n", displayCount);
-
-  // Preferences
+  // Init Preferences
   preferences.begin(NAME);
   brightness = preferences.getUInt("brightness", BRIGHTNESS);
-
-  // Debug trace
   Serial.printf("Brightness = %d\n", brightness);
+
+  // Init Screen
+  displayCount = M5.getDisplayCount();
+  Serial.printf("On start %d\n", displayCount);
 
   // Init Leds
 #if BOARD != CORES3
@@ -49,6 +47,7 @@ void setup() {
     FastLED.addLeds<NEOPIXEL, 25>(leds,
                                   NUM_LEDS);  // GRB ordering is assumed
   }
+  FastLED.setBrightness(16);
 #endif
 
   // Init Rand
@@ -101,40 +100,9 @@ void setup() {
   M5.Speaker.setVolume(128);
 
   if (spk_cfg.use_dac || spk_cfg.buzzer) {
-    /// Increasing the sample_rate will improve the sound quality instead of increasing the CPU load.
-    spk_cfg.sample_rate =
-      192000;  // default:64000 (64kHz)  e.g. 48000 , 50000 , 80000 , 96000 , 100000 , 128000 , 144000 , 192000 , 200000
+    spk_cfg.sample_rate = 192000;
   }
   M5.Speaker.config(spk_cfg);
-
-  for (uint8_t d = 0; d < displayCount; d++) {
-    char string[64];
-
-    if (!LittleFS.begin()) {
-      Serial.println(F("ERROR: File System Mount Failed!"));
-    } else {
-      M5.Displays(d).drawPngFile(LittleFS, DRADIS_LOGO, 0, 120, 320, 90);
-    }
-
-    M5.Displays(d).setFont(&Ubuntu_Medium6pt7b);
-    M5.Displays(d).setTextDatum(CC_DATUM);
-    M5.Displays(d).setTextColor(TFT_WHITE, TFT_DRADIS);
-
-    sprintf(string, "%s Version %s", NAME, VERSION);
-    M5.Displays(d).drawString(string, 160, 20);
-
-    sprintf(string, "by %s", AUTHOR);
-    M5.Displays(d).drawString(string, 160, 35);
-  }
-
-  playWav(DRADIS_WAV);
-
-  delay(2000);
-
-  M5.Displays(0).setBrightness(brightness);
-  M5.Displays(0).fillScreen(TFT_DRADIS);
-
-  FastLED.setBrightness(16);
 
   // Multitasking task for retreive button
   xTaskCreatePinnedToCore(button,    // Function to implement the task
@@ -152,6 +120,9 @@ void setup() {
                           4,        // Priority of the task
                           NULL,     // Task handle
                           1);       // Core where the task should run
+
+  // Boot
+  boot();
 }
 
 // Main loop

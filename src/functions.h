@@ -203,15 +203,34 @@ void button(void *pvParameters) {
   }
 }
 
-// Set led on M5GO module
-void led() {
-  RGBColor m5goColor = M5.Displays(0).readPixelRGB(160, 60);
-  for (uint8_t i = 0; i <= 9; i++) {
-    leds[i] = CRGB(m5goColor.r, m5goColor.g, m5goColor.b);
+// Boot
+void boot() {
+  for (uint8_t d = 0; d < displayCount; d++) {
+    char string[64];
+
+    if (!LittleFS.begin()) {
+      Serial.println(F("ERROR: File System Mount Failed!"));
+    } else {
+      M5.Displays(d).drawPngFile(LittleFS, DRADIS_LOGO, 0, 120, 320, 90);
+    }
+
+    M5.Displays(d).setFont(&Ubuntu_Medium6pt7b);
+    M5.Displays(d).setTextDatum(CC_DATUM);
+    M5.Displays(d).setTextColor(TFT_WHITE, TFT_DRADIS);
+
+    sprintf(string, "%s Version %s", NAME, VERSION);
+    M5.Displays(d).drawString(string, 160, 20);
+
+    sprintf(string, "by %s", AUTHOR);
+    M5.Displays(d).drawString(string, 160, 35);
   }
-  FastLED.setBrightness(16);
-  FastLED.show();
-  // raptorSprite.pushSprite( 0,  0, 0); // Draw sprite with palette color 0 transparent
+
+  playWav(DRADIS_WAV);
+
+  delay(2000);
+
+  M5.Displays(0).setBrightness(brightness);
+  M5.Displays(0).fillScreen(TFT_DRADIS);
 }
 
 // Video
@@ -270,7 +289,7 @@ void video() {
             unknownSprite.pushSprite(140 + unknownX, 40 + unknownY, 1);
             unknownLabelSprite.pushSprite(140 + unknownX - 8, 40 + unknownY - 10, 1);
           }
-
+        
           if (wav) {
             playWav(DRADIS_WAV);
           }
