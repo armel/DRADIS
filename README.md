@@ -14,7 +14,7 @@
 
 **Many thanks to them and all my [donors](#donations)🙏🏻** 
 
-This project is a little [DRADIS](https://en.battlestarwikiclone.org/wiki/DRADIS) simulator on M5Stack. Use cases ? None ! It's just for fun 😎 
+This project is a little [DRADIS](https://en.battlestarwikiclone.org/wiki/DRADIS) simulator on M5Stack. Use cases ? None ! It's just for fun 😎 Note that this project works best with the M5GO/M5GO2 module (if you want to take advantage of the Cylon eye scanner...).
 
 # Usage
 
