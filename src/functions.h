@@ -88,16 +88,19 @@ void button(void *pvParameters) {
     }
 
     if (counter == 0) {
+      viperNum = random(0, 2);
       viperView = random(0, 2);
       viperX    = random(-40, 40);
       viperY    = random(-40, 40);
       viperStep = random(-1, 2);
 
+      raptorNum = random(0, 2);
       raptorView = random(0, 2);
       raptorX    = random(-10, 10);
       raptorY    = random(-10, 10);
       raptorStep = random(-1, 2);
 
+      raiderNum = random(0, 2);
       raiderView = random(0, 2);
       raiderX    = random(-20, 20);
       raiderY    = random(-20, 20);
@@ -109,8 +112,8 @@ void button(void *pvParameters) {
     }
 
     if (counter != 0 && counter % 100 == 0) {
-      viperX += viperStep;
-      viperY -= 1;
+      viperX += viperStep * 4;
+      viperY -= 4;
 
       raptorX += raptorStep;
       raptorY -= 1;
@@ -211,7 +214,7 @@ void boot() {
     if (!LittleFS.begin()) {
       Serial.println(F("ERROR: File System Mount Failed!"));
     } else {
-      M5.Displays(d).drawPngFile(LittleFS, DRADIS_LOGO, 0, 120, 320, 90);
+      M5.Displays(d).drawPngFile(LittleFS, DRADIS_LOGO, 0, 75, 320, 90);
     }
 
     M5.Displays(d).setFont(&Ubuntu_Medium6pt7b);
@@ -231,6 +234,45 @@ void boot() {
 
   M5.Displays(0).setBrightness(brightness);
   M5.Displays(0).fillScreen(TFT_DRADIS);
+}
+
+// Contact
+void contact() {
+  if (viperView) {
+    if(viperNum == 1)
+    {
+      viperSprite.pushSprite(160 + viperX, 100 + viperY, 1);
+    }
+    viperSprite.pushSprite(160 + viperX - 15, 100 + viperY + 15, 1);
+    viperSprite.pushSprite(160 + viperX + 15, 100 + viperY + 15, 1);
+    viperLabelSprite.pushSprite(160 + viperX - 8, 100 + viperY + 40, 1);
+  }
+
+  if (raptorView) {
+    if(raptorNum == 1)
+    {
+      raptorSprite.pushSprite(160 + raptorX, 160 + raptorY, 1);
+    }
+    raptorSprite.pushSprite(160 + raptorX - 15, 160 + raptorY + 15, 1);
+    raptorSprite.pushSprite(160 + raptorX + 15, 160 + raptorY + 15, 1);
+    raptorLabelSprite.pushSprite(160 + raptorX - 10, 160 + raptorY + 40, 1);
+  }
+
+  if (raiderView) {
+    raiderSprite.pushSprite(160 + raiderX, 40 + raiderY, 1);
+    raiderSprite.pushSprite(160 + raiderX - 15, 40 + raiderY + 15, 1);
+    raiderSprite.pushSprite(160 + raiderX + 15, 40 + raiderY + 15, 1);
+    if(raiderNum == 1)
+    {
+      raiderSprite.pushSprite(160 + raiderX, 40 + raiderY + 30, 1);
+    }
+    raiderLabelSprite.pushSprite(160 + raiderX - 12, 40 + raiderY - 10, 1);
+  }
+
+  if (!raiderView) {
+    unknownSprite.pushSprite(140 + unknownX, 40 + unknownY, 1);
+    unknownLabelSprite.pushSprite(140 + unknownX - 8, 40 + unknownY - 10, 1);
+  }  
 }
 
 // Video
@@ -253,6 +295,7 @@ void video() {
         break;
 
       default:
+        filename = (char *)DRADIS_VIDEO_GREY;
         break;
     }
 
@@ -281,31 +324,7 @@ void video() {
           // Play video
           mjpegClass.drawJpg();
 
-          if (viperView) {
-            viperSprite.pushSprite(160 + viperX, 100 + viperY, 1);
-            viperSprite.pushSprite(160 + viperX - 15, 100 + viperY + 15, 1);
-            viperSprite.pushSprite(160 + viperX + 15, 100 + viperY + 15, 1);
-            viperLabelSprite.pushSprite(160 + viperX - 8, 100 + viperY + 40, 1);
-          }
-
-          if (raptorView) {
-            raptorSprite.pushSprite(160 + raptorX - 10, 160 + raptorY, 1);
-            raptorSprite.pushSprite(160 + raptorX + 10, 160 + raptorY, 1);
-            raptorLabelSprite.pushSprite(160 + raptorX - 8, 160 + raptorY + 25, 1);
-          }
-
-          if (raiderView) {
-            raiderSprite.pushSprite(160 + raiderX, 40 + raiderY, 1);
-            raiderSprite.pushSprite(160 + raiderX - 15, 40 + raiderY + 15, 1);
-            raiderSprite.pushSprite(160 + raiderX + 15, 40 + raiderY + 15, 1);
-            raiderSprite.pushSprite(160 + raiderX, 40 + raiderY + 30, 1);
-            raiderLabelSprite.pushSprite(160 + raiderX - 12, 40 + raiderY - 10, 1);
-          }
-
-          if (!raiderView) {
-            unknownSprite.pushSprite(140 + unknownX, 40 + unknownY, 1);
-            unknownLabelSprite.pushSprite(140 + unknownX - 8, 40 + unknownY - 10, 1);
-          }
+          contact();
 
           if (wav) {
             playWav(DRADIS_WAV);

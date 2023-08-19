@@ -63,7 +63,7 @@ void setup() {
   viperLabelSprite.setColorDepth(8);
   viperLabelSprite.createSprite(34, 10);
   viperLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  viperLabelSprite.drawString("Vipers", 0, 0);
+  viperLabelSprite.drawString("vipers", 0, 0);
 
   raptorSprite.setColorDepth(8);
   raptorSprite.createSprite(17, 20);
@@ -73,7 +73,7 @@ void setup() {
   raptorLabelSprite.setColorDepth(8);
   raptorLabelSprite.createSprite(40, 10);
   raptorLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  raptorLabelSprite.drawString("Raptors", 0, 0);
+  raptorLabelSprite.drawString("raptors", 0, 0);
 
   raiderSprite.setColorDepth(8);
   raiderSprite.createSprite(19, 20);
@@ -83,7 +83,7 @@ void setup() {
   raiderLabelSprite.setColorDepth(8);
   raiderLabelSprite.createSprite(40, 10);
   raiderLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  raiderLabelSprite.drawString("Raiders", 0, 0);
+  raiderLabelSprite.drawString("raiders", 0, 0);
 
   unknownSprite.setColorDepth(8);
   unknownSprite.createSprite(19, 20);
@@ -93,7 +93,7 @@ void setup() {
   unknownLabelSprite.setColorDepth(8);
   unknownLabelSprite.createSprite(40, 10);
   unknownLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  unknownLabelSprite.drawString("Unkown", 0, 0);
+  unknownLabelSprite.drawString("unkown", 0, 0);
 
   // Init Sound
   auto spk_cfg = M5.Speaker.config();
