@@ -94,29 +94,51 @@ void button(void *pvParameters) {
     if (counter == 0) {
       viperNum  = random(0, 2);
       viperView = random(0, 2);
-      viperX    = random(-40, 40);
-      viperY    = random(-30, 40);
+      viperX    = 160 + random(-50, 50);
+      viperY    = 70 + random(-30, 40);
       viperStep = random(-1, 2);
 
       raptorNum  = random(0, 2);
       raptorView = random(0, 2);
-      raptorX    = random(-40, 40);
-      raptorY    = random(-10, 20);
+      raptorX    = 160 + random(-40, 40);
+      raptorY    = 100 + random(-10, 20);
       raptorStep = random(-1, 2);
 
-      battlestarX    = random(-10, 10);
-      battlestarY    = random(-10, 10);
+      battlestarX    = 160 + random(-15, 15);
+      battlestarY    = 130 + random(-10, 10);
       battlestarStep = random(-1, 2);
 
       raiderNum  = random(0, 2);
       raiderView = random(0, 2);
-      raiderX    = random(-30, 30);
-      raiderY    = random(-10, 30);
+      raiderX    = 160 + random(-30, 30);
+      raiderY    = 40 + random(-10, 30);
       raiderStep = random(-1, 2);
 
-      unknownX    = random(-10, 10);
-      unknownY    = random(-10, 10);
+      unknownX    = 160 + random(-40, 40);
+      unknownY    = 40 + random(-10, 10);
       unknownStep = random(-1, 2);
+
+      // Limit colision
+
+      if (viperView == 1) {
+        if (sqrt((viperX - battlestarX) * (viperX - battlestarX) + (viperY - battlestarY) * (viperY - battlestarY)) <
+            40) {
+          viperView = 0;
+        }
+      }
+
+      if (raptorView == 1) {
+        if (sqrt((raptorX - battlestarX) * (raptorX - battlestarX) +
+                 (raptorY - battlestarY) * (raptorY - battlestarY)) < 40) {
+          raptorView = 0;
+        }
+      }
+
+      if (viperView == 1 && raptorView == 1) {
+        if (sqrt((viperX - raptorX) * (viperX - raptorX) + (viperY - raptorY) * (viperY - raptorY)) < 20) {
+          raptorView = 0;
+        }
+      }
     }
 
     if (counter != 0 && counter % 100 == 0) {
@@ -253,42 +275,42 @@ void contact() {
   uint8_t shiftY = 20;
 
   canvasSprite.fillSprite(0);
-  //canvasSprite.drawRect(0, 0, 220, 170, TFT_BLUE);
+  //canvasSprite.drawRect(0, 0, 220, 170, TFT_BLUE); // For debug
+
+  battlestarSprite.pushSprite(&canvasSprite, battlestarX - shiftX, battlestarY - shiftY + 15, 1);
+  battlestarLabelSprite.pushSprite(&canvasSprite, battlestarX - shiftX - 21, battlestarY - shiftY + 40, 1);
 
   if (viperView) {
     if (viperNum == 1) {
-      viperSprite.pushSprite(&canvasSprite, 160 - shiftX + viperX, 70 - shiftY + viperY, 1);
+      viperSprite.pushSprite(&canvasSprite, viperX - shiftX, viperY - shiftY, 1);
     }
-    viperSprite.pushSprite(&canvasSprite, 160 - shiftX + viperX - 15, 70 - shiftY + viperY + 15, 1);
-    viperSprite.pushSprite(&canvasSprite, 160 - shiftX + viperX + 15, 70 - shiftY + viperY + 15, 1);
-    viperLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + viperX - 8, 70 - shiftY + viperY + 40, 1);
+    viperSprite.pushSprite(&canvasSprite, viperX - shiftX - 15, viperY - shiftY + 15, 1);
+    viperSprite.pushSprite(&canvasSprite, viperX - shiftX + 15, viperY - shiftY + 15, 1);
+    viperLabelSprite.pushSprite(&canvasSprite, viperX - shiftX - 8, viperY - shiftY + 40, 1);
   }
 
   if (raptorView) {
     if (raptorNum == 1) {
-      raptorSprite.pushSprite(&canvasSprite, 160 - shiftX + raptorX, 100 - shiftY + raptorY, 1);
+      raptorSprite.pushSprite(&canvasSprite, raptorX - shiftX, raptorY - shiftY, 1);
     }
-    raptorSprite.pushSprite(&canvasSprite, 160 - shiftX + raptorX - 15, 100 - shiftY + raptorY + 15, 1);
-    raptorSprite.pushSprite(&canvasSprite, 160 - shiftX + raptorX + 15, 100 - shiftY + raptorY + 15, 1);
-    raptorLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + raptorX - 10, 100 - shiftY + raptorY + 40, 1);
+    raptorSprite.pushSprite(&canvasSprite, raptorX - shiftX - 15, raptorY - shiftY + 15, 1);
+    raptorSprite.pushSprite(&canvasSprite, raptorX - shiftX + 15, raptorY - shiftY + 15, 1);
+    raptorLabelSprite.pushSprite(&canvasSprite, raptorX - shiftX - 10, raptorY - shiftY + 40, 1);
   }
 
-  battlestarSprite.pushSprite(&canvasSprite, 160 - shiftX + battlestarX, 130 - shiftY + battlestarY + 15, 1);
-  battlestarLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + battlestarX - 21, 130 - shiftY + battlestarY + 40, 1);
-
   if (raiderView) {
-    raiderSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX, 40 - shiftY + raiderY, 1);
-    raiderSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX - 15, 40 - shiftY + raiderY + 15, 1);
-    raiderSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX + 15, 40 - shiftY + raiderY + 15, 1);
+    raiderSprite.pushSprite(&canvasSprite, raiderX - shiftX, raiderY - shiftY, 1);
+    raiderSprite.pushSprite(&canvasSprite, raiderX - shiftX - 15, raiderY - shiftY + 15, 1);
+    raiderSprite.pushSprite(&canvasSprite, raiderX - shiftX + 15, raiderY - shiftY + 15, 1);
     if (raiderNum == 1) {
-      raiderSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX, 40 - shiftY + raiderY + 30, 1);
+      raiderSprite.pushSprite(&canvasSprite, raiderX - shiftX, raiderY - shiftY + 30, 1);
     }
-    raiderLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX - 12, 40 - shiftY + raiderY - 10, 1);
+    raiderLabelSprite.pushSprite(&canvasSprite, raiderX - shiftX - 12, raiderY - shiftY - 10, 1);
   }
 
   if (!raiderView) {
-    unknownSprite.pushSprite(&canvasSprite, 160 - shiftX + unknownX, 40 - shiftY + unknownY, 1);
-    unknownLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + unknownX - 8, 40 - shiftY + unknownY - 10, 1);
+    unknownSprite.pushSprite(&canvasSprite, unknownX - shiftX, unknownY - shiftY, 1);
+    unknownLabelSprite.pushSprite(&canvasSprite, unknownX - shiftX - 8, unknownY - shiftY - 10, 1);
   }
 }
 
