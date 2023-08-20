@@ -54,6 +54,9 @@ LGFX_Sprite raiderLabelSprite(&M5.Display);
 LGFX_Sprite unknownSprite(&M5.Display);
 LGFX_Sprite unknownLabelSprite(&M5.Display);
 
+LGFX_Sprite canvasSprite(&M5.Display);
+LGFX_Sprite clipSprite(&M5.Display);
+
 uint8_t viperNum = 0;
 uint8_t raptorNum = 0;
 uint8_t raiderNum = 0;
