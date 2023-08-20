@@ -95,13 +95,13 @@ void button(void *pvParameters) {
       viperNum  = random(0, 2);
       viperView = random(0, 2);
       viperX    = random(-40, 40);
-      viperY    = random(-40, 40);
+      viperY    = random(-30, 40);
       viperStep = random(-1, 2);
 
       raptorNum  = random(0, 2);
       raptorView = random(0, 2);
-      raptorX    = random(-10, 10);
-      raptorY    = random(-10, 10);
+      raptorX    = random(-40, 40);
+      raptorY    = random(-10, 20);
       raptorStep = random(-1, 2);
 
       battlestarX    = random(-10, 10);
@@ -110,7 +110,7 @@ void button(void *pvParameters) {
 
       raiderNum  = random(0, 2);
       raiderView = random(0, 2);
-      raiderX    = random(-40, 40);
+      raiderX    = random(-30, 30);
       raiderY    = random(-10, 30);
       raiderStep = random(-1, 2);
 
