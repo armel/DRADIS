@@ -96,7 +96,7 @@ void setup() {
   unknownLabelSprite.drawString("unkown", 0, 0);
 
   canvasSprite.setColorDepth(8);
-  canvasSprite.createSprite(320,240);
+  canvasSprite.createSprite(220, 180);
 
   clipSprite.setColorDepth(16);
   

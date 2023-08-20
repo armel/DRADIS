@@ -4,7 +4,7 @@
 // Pixel drawing callback
 static int mjpegDrawCallback(JPEGDRAW *pDraw) {
   clipSprite.deleteSprite();
-  clipSprite.createSprite( pDraw->iWidth, pDraw->iHeight );
+  clipSprite.createSprite(pDraw->iWidth, pDraw->iHeight);
   clipSprite.pushImage(0, 0, pDraw->iWidth, pDraw->iHeight, pDraw->pPixels);
   canvasSprite.pushSprite(&clipSprite, -pDraw->x, -pDraw->y, 0);
 
@@ -92,19 +92,19 @@ void button(void *pvParameters) {
     }
 
     if (counter == 0) {
-      viperNum = random(0, 2);
+      viperNum  = random(0, 2);
       viperView = random(0, 2);
       viperX    = random(-40, 40);
       viperY    = random(-40, 40);
       viperStep = random(-1, 2);
 
-      raptorNum = random(0, 2);
+      raptorNum  = random(0, 2);
       raptorView = random(0, 2);
       raptorX    = random(-10, 10);
       raptorY    = random(-10, 10);
       raptorStep = random(-1, 2);
 
-      raiderNum = random(0, 2);
+      raiderNum  = random(0, 2);
       raiderView = random(0, 2);
       raiderX    = random(-20, 20);
       raiderY    = random(-20, 20);
@@ -242,12 +242,10 @@ void boot() {
 
 // Contact
 void contact() {
-
   canvasSprite.fillSprite(0);
 
   if (viperView) {
-    if(viperNum == 1)
-    {
+    if (viperNum == 1) {
       viperSprite.pushSprite(&canvasSprite, 160 + viperX, 100 + viperY, 1);
     }
     viperSprite.pushSprite(&canvasSprite, 160 + viperX - 15, 100 + viperY + 15, 1);
@@ -256,21 +254,19 @@ void contact() {
   }
 
   if (raptorView) {
-    if(raptorNum == 1)
-    {
-      raptorSprite.pushSprite(&canvasSprite, 160 + raptorX, 160 + raptorY, 1);
+    if (raptorNum == 1) {
+      raptorSprite.pushSprite(&canvasSprite, 160 + raptorX, 130 + raptorY, 1);
     }
-    raptorSprite.pushSprite(&canvasSprite, 160 + raptorX - 15, 160 + raptorY + 15, 1);
-    raptorSprite.pushSprite(&canvasSprite, 160 + raptorX + 15, 160 + raptorY + 15, 1);
-    raptorLabelSprite.pushSprite(&canvasSprite, 160 + raptorX - 10, 160 + raptorY + 40, 1);
+    raptorSprite.pushSprite(&canvasSprite, 160 + raptorX - 15, 130 + raptorY + 15, 1);
+    raptorSprite.pushSprite(&canvasSprite, 160 + raptorX + 15, 130 + raptorY + 15, 1);
+    raptorLabelSprite.pushSprite(&canvasSprite, 160 + raptorX - 10, 130 + raptorY + 40, 1);
   }
 
   if (raiderView) {
     raiderSprite.pushSprite(&canvasSprite, 160 + raiderX, 40 + raiderY, 1);
     raiderSprite.pushSprite(&canvasSprite, 160 + raiderX - 15, 40 + raiderY + 15, 1);
     raiderSprite.pushSprite(&canvasSprite, 160 + raiderX + 15, 40 + raiderY + 15, 1);
-    if(raiderNum == 1)
-    {
+    if (raiderNum == 1) {
       raiderSprite.pushSprite(&canvasSprite, 160 + raiderX, 40 + raiderY + 30, 1);
     }
     raiderLabelSprite.pushSprite(&canvasSprite, 160 + raiderX - 12, 40 + raiderY - 10, 1);
@@ -280,7 +276,7 @@ void contact() {
     unknownSprite.pushSprite(&canvasSprite, 140 + unknownX, 40 + unknownY, 1);
     unknownLabelSprite.pushSprite(&canvasSprite, 140 + unknownX - 8, 40 + unknownY - 10, 1);
   }
-  //canvasSprite.pushSprite(0,0,0);  
+  // canvasSprite.pushSprite(0,0,0);
 }
 
 // Video
@@ -317,8 +313,6 @@ void video() {
       Serial.print(filename);
       Serial.println(" file for reading");
     } else {
-      // uint8_t *mjpegBuf = (uint8_t *)malloc(MJPEG_BUFFER_SIZE);
-
       if (!mjpegBuf) {
         Serial.println(F("mjpegBuf malloc failed!"));
         // free(mjpegBuf);
@@ -331,6 +325,7 @@ void video() {
 
           // Render sprites
           contact();
+
           // Play video
           mjpegClass.drawJpg();
 
