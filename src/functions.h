@@ -6,7 +6,7 @@ static int mjpegDrawCallback(JPEGDRAW *pDraw) {
   clipSprite.deleteSprite();
   clipSprite.createSprite(pDraw->iWidth, pDraw->iHeight);
   clipSprite.pushImage(0, 0, pDraw->iWidth, pDraw->iHeight, pDraw->pPixels);
-  canvasSprite.pushSprite(&clipSprite, -pDraw->x, -pDraw->y, 0);
+  canvasSprite.pushSprite(&clipSprite, -pDraw->x + 60, -pDraw->y + 20, 0);
 
   for (uint8_t d = 0; d < displayCount; d++) {
     clipSprite.pushSprite(&M5.Displays(d), pDraw->x, pDraw->y);
@@ -104,10 +104,14 @@ void button(void *pvParameters) {
       raptorY    = random(-10, 10);
       raptorStep = random(-1, 2);
 
+      battlestarX    = random(-10, 10);
+      battlestarY    = random(-10, 10);
+      battlestarStep = random(-1, 2);
+
       raiderNum  = random(0, 2);
       raiderView = random(0, 2);
-      raiderX    = random(-20, 20);
-      raiderY    = random(-20, 20);
+      raiderX    = random(-40, 40);
+      raiderY    = random(-10, 30);
       raiderStep = random(-1, 2);
 
       unknownX    = random(-10, 10);
@@ -122,10 +126,13 @@ void button(void *pvParameters) {
       raptorX += raptorStep;
       raptorY -= 1;
 
-      raiderX -= raiderStep;
+      battlestarX += battlestarStep;
+      battlestarY -= 1;
+
+      raiderX += raiderStep;
       raiderY += 1;
 
-      unknownX -= unknownStep;
+      unknownX += unknownStep;
       unknownY += 1;
     }
 
@@ -242,41 +249,47 @@ void boot() {
 
 // Contact
 void contact() {
+  uint8_t shiftX = 60;
+  uint8_t shiftY = 20;
+
   canvasSprite.fillSprite(0);
+  //canvasSprite.drawRect(0, 0, 220, 170, TFT_BLUE);
 
   if (viperView) {
     if (viperNum == 1) {
-      viperSprite.pushSprite(&canvasSprite, 160 + viperX, 100 + viperY, 1);
+      viperSprite.pushSprite(&canvasSprite, 160 - shiftX + viperX, 70 - shiftY + viperY, 1);
     }
-    viperSprite.pushSprite(&canvasSprite, 160 + viperX - 15, 100 + viperY + 15, 1);
-    viperSprite.pushSprite(&canvasSprite, 160 + viperX + 15, 100 + viperY + 15, 1);
-    viperLabelSprite.pushSprite(&canvasSprite, 160 + viperX - 8, 100 + viperY + 40, 1);
+    viperSprite.pushSprite(&canvasSprite, 160 - shiftX + viperX - 15, 70 - shiftY + viperY + 15, 1);
+    viperSprite.pushSprite(&canvasSprite, 160 - shiftX + viperX + 15, 70 - shiftY + viperY + 15, 1);
+    viperLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + viperX - 8, 70 - shiftY + viperY + 40, 1);
   }
 
   if (raptorView) {
     if (raptorNum == 1) {
-      raptorSprite.pushSprite(&canvasSprite, 160 + raptorX, 130 + raptorY, 1);
+      raptorSprite.pushSprite(&canvasSprite, 160 - shiftX + raptorX, 100 - shiftY + raptorY, 1);
     }
-    raptorSprite.pushSprite(&canvasSprite, 160 + raptorX - 15, 130 + raptorY + 15, 1);
-    raptorSprite.pushSprite(&canvasSprite, 160 + raptorX + 15, 130 + raptorY + 15, 1);
-    raptorLabelSprite.pushSprite(&canvasSprite, 160 + raptorX - 10, 130 + raptorY + 40, 1);
+    raptorSprite.pushSprite(&canvasSprite, 160 - shiftX + raptorX - 15, 100 - shiftY + raptorY + 15, 1);
+    raptorSprite.pushSprite(&canvasSprite, 160 - shiftX + raptorX + 15, 100 - shiftY + raptorY + 15, 1);
+    raptorLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + raptorX - 10, 100 - shiftY + raptorY + 40, 1);
   }
 
+  battlestarSprite.pushSprite(&canvasSprite, 160 - shiftX + battlestarX, 130 - shiftY + battlestarY + 15, 1);
+  battlestarLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + battlestarX - 21, 130 - shiftY + battlestarY + 40, 1);
+
   if (raiderView) {
-    raiderSprite.pushSprite(&canvasSprite, 160 + raiderX, 40 + raiderY, 1);
-    raiderSprite.pushSprite(&canvasSprite, 160 + raiderX - 15, 40 + raiderY + 15, 1);
-    raiderSprite.pushSprite(&canvasSprite, 160 + raiderX + 15, 40 + raiderY + 15, 1);
+    raiderSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX, 40 - shiftY + raiderY, 1);
+    raiderSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX - 15, 40 - shiftY + raiderY + 15, 1);
+    raiderSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX + 15, 40 - shiftY + raiderY + 15, 1);
     if (raiderNum == 1) {
-      raiderSprite.pushSprite(&canvasSprite, 160 + raiderX, 40 + raiderY + 30, 1);
+      raiderSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX, 40 - shiftY + raiderY + 30, 1);
     }
-    raiderLabelSprite.pushSprite(&canvasSprite, 160 + raiderX - 12, 40 + raiderY - 10, 1);
+    raiderLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + raiderX - 12, 40 - shiftY + raiderY - 10, 1);
   }
 
   if (!raiderView) {
-    unknownSprite.pushSprite(&canvasSprite, 140 + unknownX, 40 + unknownY, 1);
-    unknownLabelSprite.pushSprite(&canvasSprite, 140 + unknownX - 8, 40 + unknownY - 10, 1);
+    unknownSprite.pushSprite(&canvasSprite, 160 - shiftX + unknownX, 40 - shiftY + unknownY, 1);
+    unknownLabelSprite.pushSprite(&canvasSprite, 160 - shiftX + unknownX - 8, 40 - shiftY + unknownY - 10, 1);
   }
-  // canvasSprite.pushSprite(0,0,0);
 }
 
 // Video

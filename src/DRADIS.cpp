@@ -60,7 +60,7 @@ void setup() {
   viperSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   viperSprite.drawPng(viper, sizeof(viper), 0, 0, 17, 20);
 
-  viperLabelSprite.setColorDepth(8);
+  viperLabelSprite.setColorDepth(2);
   viperLabelSprite.createSprite(34, 10);
   viperLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   viperLabelSprite.drawString("vipers", 0, 0);
@@ -70,17 +70,27 @@ void setup() {
   raptorSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raptorSprite.drawPng(raptor, sizeof(raptor), 0, 0, 17, 20);
 
-  raptorLabelSprite.setColorDepth(8);
+  raptorLabelSprite.setColorDepth(2);
   raptorLabelSprite.createSprite(40, 10);
   raptorLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raptorLabelSprite.drawString("raptors", 0, 0);
+
+  battlestarSprite.setColorDepth(8);
+  battlestarSprite.createSprite(17, 19);
+  battlestarSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  battlestarSprite.drawPng(battlestar, sizeof(battlestar), 0, 0, 17, 19);
+
+  battlestarLabelSprite.setColorDepth(2);
+  battlestarLabelSprite.createSprite(60, 10);
+  battlestarLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  battlestarLabelSprite.drawString("battlestar", 0, 0);
 
   raiderSprite.setColorDepth(8);
   raiderSprite.createSprite(19, 20);
   raiderSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raiderSprite.drawPng(raider, sizeof(raider), 0, 0, 19, 20);
 
-  raiderLabelSprite.setColorDepth(8);
+  raiderLabelSprite.setColorDepth(2);
   raiderLabelSprite.createSprite(40, 10);
   raiderLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raiderLabelSprite.drawString("raiders", 0, 0);
@@ -90,13 +100,13 @@ void setup() {
   unknownSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   unknownSprite.drawPng(unknown, sizeof(unknown), 0, 0, 19, 20);
 
-  unknownLabelSprite.setColorDepth(8);
+  unknownLabelSprite.setColorDepth(2);
   unknownLabelSprite.createSprite(40, 10);
   unknownLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   unknownLabelSprite.drawString("unkown", 0, 0);
 
   canvasSprite.setColorDepth(8);
-  canvasSprite.createSprite(220, 180);
+  canvasSprite.createSprite(220, 170);
 
   clipSprite.setColorDepth(16);
   

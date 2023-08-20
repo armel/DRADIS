@@ -54,10 +54,13 @@ LGFX_Sprite raiderLabelSprite(&M5.Display);
 LGFX_Sprite unknownSprite(&M5.Display);
 LGFX_Sprite unknownLabelSprite(&M5.Display);
 
+LGFX_Sprite battlestarSprite(&M5.Display);
+LGFX_Sprite battlestarLabelSprite(&M5.Display);
+
 LGFX_Sprite canvasSprite(&M5.Display);
 LGFX_Sprite clipSprite(&M5.Display);
 
-uint8_t viperNum = 0;
+uint8_t viperNum  = 0;
 uint8_t raptorNum = 0;
 uint8_t raiderNum = 0;
 
@@ -65,16 +68,18 @@ int16_t viperX, viperY;
 int16_t raptorX, raptorY;
 int16_t raiderX, raiderY;
 int16_t unknownX, unknownY;
+int16_t battlestarX, battlestarY;
 
-int8_t viperStep   = false;
-int8_t raptorStep  = false;
-int8_t raiderStep  = false;
-int8_t unknownStep = false;
+int8_t viperStep      = false;
+int8_t raptorStep     = false;
+int8_t raiderStep     = false;
+int8_t unknownStep    = false;
+int8_t battlestarStep = false;
 
-boolean viperView   = false;
-boolean raptorView  = false;
-boolean raiderView  = false;
-boolean unknownView = false;
+boolean viperView      = false;
+boolean raptorView     = false;
+boolean raiderView     = false;
+boolean unknownView    = false;
 
 boolean wav = false;
 
