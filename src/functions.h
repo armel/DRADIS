@@ -3,9 +3,13 @@
 
 // Pixel drawing callback
 static int mjpegDrawCallback(JPEGDRAW *pDraw) {
-  // Serial.printf("Draw pos = %d,%d. size = %d x %d\n", pDraw->x, pDraw->y, pDraw->iWidth, pDraw->iHeight);
+  clipSprite.deleteSprite();
+  clipSprite.createSprite( pDraw->iWidth, pDraw->iHeight );
+  clipSprite.pushImage(0, 0, pDraw->iWidth, pDraw->iHeight, pDraw->pPixels);
+  canvasSprite.pushSprite(&clipSprite, -pDraw->x, -pDraw->y, 0);
+
   for (uint8_t d = 0; d < displayCount; d++) {
-    M5.Displays(d).pushImage(pDraw->x, pDraw->y, pDraw->iWidth, pDraw->iHeight, pDraw->pPixels);
+    clipSprite.pushSprite(&M5.Displays(d), pDraw->x, pDraw->y);
   }
   return 1;
 }
@@ -238,41 +242,45 @@ void boot() {
 
 // Contact
 void contact() {
+
+  canvasSprite.fillSprite(0);
+
   if (viperView) {
     if(viperNum == 1)
     {
-      viperSprite.pushSprite(160 + viperX, 100 + viperY, 1);
+      viperSprite.pushSprite(&canvasSprite, 160 + viperX, 100 + viperY, 1);
     }
-    viperSprite.pushSprite(160 + viperX - 15, 100 + viperY + 15, 1);
-    viperSprite.pushSprite(160 + viperX + 15, 100 + viperY + 15, 1);
-    viperLabelSprite.pushSprite(160 + viperX - 8, 100 + viperY + 40, 1);
+    viperSprite.pushSprite(&canvasSprite, 160 + viperX - 15, 100 + viperY + 15, 1);
+    viperSprite.pushSprite(&canvasSprite, 160 + viperX + 15, 100 + viperY + 15, 1);
+    viperLabelSprite.pushSprite(&canvasSprite, 160 + viperX - 8, 100 + viperY + 40, 1);
   }
 
   if (raptorView) {
     if(raptorNum == 1)
     {
-      raptorSprite.pushSprite(160 + raptorX, 160 + raptorY, 1);
+      raptorSprite.pushSprite(&canvasSprite, 160 + raptorX, 160 + raptorY, 1);
     }
-    raptorSprite.pushSprite(160 + raptorX - 15, 160 + raptorY + 15, 1);
-    raptorSprite.pushSprite(160 + raptorX + 15, 160 + raptorY + 15, 1);
-    raptorLabelSprite.pushSprite(160 + raptorX - 10, 160 + raptorY + 40, 1);
+    raptorSprite.pushSprite(&canvasSprite, 160 + raptorX - 15, 160 + raptorY + 15, 1);
+    raptorSprite.pushSprite(&canvasSprite, 160 + raptorX + 15, 160 + raptorY + 15, 1);
+    raptorLabelSprite.pushSprite(&canvasSprite, 160 + raptorX - 10, 160 + raptorY + 40, 1);
   }
 
   if (raiderView) {
-    raiderSprite.pushSprite(160 + raiderX, 40 + raiderY, 1);
-    raiderSprite.pushSprite(160 + raiderX - 15, 40 + raiderY + 15, 1);
-    raiderSprite.pushSprite(160 + raiderX + 15, 40 + raiderY + 15, 1);
+    raiderSprite.pushSprite(&canvasSprite, 160 + raiderX, 40 + raiderY, 1);
+    raiderSprite.pushSprite(&canvasSprite, 160 + raiderX - 15, 40 + raiderY + 15, 1);
+    raiderSprite.pushSprite(&canvasSprite, 160 + raiderX + 15, 40 + raiderY + 15, 1);
     if(raiderNum == 1)
     {
-      raiderSprite.pushSprite(160 + raiderX, 40 + raiderY + 30, 1);
+      raiderSprite.pushSprite(&canvasSprite, 160 + raiderX, 40 + raiderY + 30, 1);
     }
-    raiderLabelSprite.pushSprite(160 + raiderX - 12, 40 + raiderY - 10, 1);
+    raiderLabelSprite.pushSprite(&canvasSprite, 160 + raiderX - 12, 40 + raiderY - 10, 1);
   }
 
   if (!raiderView) {
-    unknownSprite.pushSprite(140 + unknownX, 40 + unknownY, 1);
-    unknownLabelSprite.pushSprite(140 + unknownX - 8, 40 + unknownY - 10, 1);
-  }  
+    unknownSprite.pushSprite(&canvasSprite, 140 + unknownX, 40 + unknownY, 1);
+    unknownLabelSprite.pushSprite(&canvasSprite, 140 + unknownX - 8, 40 + unknownY - 10, 1);
+  }
+  //canvasSprite.pushSprite(0,0,0);  
 }
 
 // Video
@@ -321,10 +329,10 @@ void video() {
           // Read video
           mjpegClass.readMjpegBuf();
 
+          // Render sprites
+          contact();
           // Play video
           mjpegClass.drawJpg();
-
-          contact();
 
           if (wav) {
             playWav(DRADIS_WAV);

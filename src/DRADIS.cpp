@@ -95,6 +95,11 @@ void setup() {
   unknownLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   unknownLabelSprite.drawString("unkown", 0, 0);
 
+  canvasSprite.setColorDepth(8);
+  canvasSprite.createSprite(320,240);
+
+  clipSprite.setColorDepth(16);
+  
   // Init Sound
   auto spk_cfg = M5.Speaker.config();
 
