@@ -108,11 +108,9 @@ void button(void *pvParameters) {
       battlestarY    = 130 + random(-10, 10);
       battlestarStep = random(-1, 2);
 
-      colonial1View = random(0, 2);
       colonial1X    = 160 + random(-60, -30);
       colonial1Y    = 115 + random(-10, 10);
 
-      colonial2View = random(0, 2);
       colonial2X    = 160 + random(30, 60);
       colonial2Y    = 125 + random(-10, 10);
 
@@ -148,12 +146,20 @@ void button(void *pvParameters) {
         }
       }
 
-      if (colonial1View == 1 && colonial2View == 1)
+      if(viperView == 0 && raptorView == 0)
       {
+        colonial1View = 1;
+        colonial2View = 1;
+
         if (sqrt((colonial1X - colonial2X) * (colonial1X - colonial2X) + (colonial1Y - colonial2Y) * (colonial1Y - colonial2Y)) < 20) {
           colonial2View = 0;
         }
-      } 
+      }
+      else
+      {
+        colonial1View = 0;
+        colonial2View = 0;
+      }
     }
 
     if (counter != 0 && counter % 100 == 0) {
