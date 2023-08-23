@@ -85,6 +85,26 @@ void setup() {
   battlestarLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   battlestarLabelSprite.drawString("battlestar", 0, 0);
 
+  colonial1Sprite.setColorDepth(8);
+  colonial1Sprite.createSprite(16, 10);
+  colonial1Sprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  colonial1Sprite.drawPng(colonial1, sizeof(colonial1), 0, 0, 16, 10);
+
+  colonial1LabelSprite.setColorDepth(2);
+  colonial1LabelSprite.createSprite(48, 10);
+  colonial1LabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  colonial1LabelSprite.drawString("colonial", 0, 0);
+
+  colonial2Sprite.setColorDepth(8);
+  colonial2Sprite.createSprite(16, 13);
+  colonial2Sprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  colonial2Sprite.drawPng(colonial2, sizeof(colonial2), 0, 0, 16, 13);
+
+  colonial2LabelSprite.setColorDepth(2);
+  colonial2LabelSprite.createSprite(48, 10);
+  colonial2LabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  colonial2LabelSprite.drawString("colonial", 0, 0);
+
   raiderSprite.setColorDepth(8);
   raiderSprite.createSprite(19, 20);
   raiderSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
@@ -106,7 +126,7 @@ void setup() {
   unknownLabelSprite.drawString("unkown", 0, 0);
 
   canvasSprite.setColorDepth(8);
-  canvasSprite.createSprite(220, 170);
+  canvasSprite.createSprite(220, 180);
 
   clipSprite.setColorDepth(16);
   
@@ -123,7 +143,7 @@ void setup() {
   // Multitasking task for retreive button
   xTaskCreatePinnedToCore(button,    // Function to implement the task
                           "button",  // Name of the task
-                          8192,      // Stack size in words
+                          1024,      // Stack size in words
                           NULL,      // Task input parameter
                           4,         // Priority of the task
                           NULL,      // Task handle
@@ -131,7 +151,7 @@ void setup() {
 
   xTaskCreatePinnedToCore(cylon,    // Function to implement the task
                           "cylon",  // Name of the task
-                          8192,     // Stack size in words
+                          1024,     // Stack size in words
                           NULL,     // Task input parameter
                           4,        // Priority of the task
                           NULL,     // Task handle

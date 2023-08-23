@@ -108,6 +108,14 @@ void button(void *pvParameters) {
       battlestarY    = 130 + random(-10, 10);
       battlestarStep = random(-1, 2);
 
+      colonial1View = random(0, 2);
+      colonial1X    = 160 + random(-60, -30);
+      colonial1Y    = 115 + random(-10, 10);
+
+      colonial2View = random(0, 2);
+      colonial2X    = 160 + random(30, 60);
+      colonial2Y    = 125 + random(-10, 10);
+
       raiderNum  = random(0, 2);
       raiderView = random(0, 2);
       raiderX    = 160 + random(-30, 30);
@@ -139,6 +147,13 @@ void button(void *pvParameters) {
           raptorView = 0;
         }
       }
+
+      if (colonial1View == 1 && colonial2View == 1)
+      {
+        if (sqrt((colonial1X - colonial2X) * (colonial1X - colonial2X) + (colonial1Y - colonial2Y) * (colonial1Y - colonial2Y)) < 20) {
+          colonial2View = 0;
+        }
+      } 
     }
 
     if (counter != 0 && counter % 100 == 0) {
@@ -150,6 +165,12 @@ void button(void *pvParameters) {
 
       battlestarX += battlestarStep;
       battlestarY -= 1;
+
+      colonial1X -= 1;
+      colonial1Y += 1;
+
+      colonial2X += 1;
+      colonial2Y += 1;
 
       raiderX += raiderStep;
       raiderY += 1;
@@ -275,10 +296,22 @@ void contact() {
   uint8_t shiftY = 20;
 
   canvasSprite.fillSprite(0);
-  //canvasSprite.drawRect(0, 0, 220, 170, TFT_BLUE); // For debug
+  //canvasSprite.drawRect(0, 0, 220, 180, TFT_BLUE);  // For debug
 
   battlestarSprite.pushSprite(&canvasSprite, battlestarX - shiftX, battlestarY - shiftY + 15, 1);
   battlestarLabelSprite.pushSprite(&canvasSprite, battlestarX - shiftX - 21, battlestarY - shiftY + 40, 1);
+
+  if(colonial1View)
+  {
+    colonial1Sprite.pushSprite(&canvasSprite, colonial1X - shiftX, colonial1Y - shiftY, 1);
+    colonial1LabelSprite.pushSprite(&canvasSprite, colonial1X - shiftX - 17, colonial1Y - shiftY + 15, 1);
+  }
+
+  if(colonial2View)
+  {
+    colonial2Sprite.pushSprite(&canvasSprite, colonial2X - shiftX, colonial2Y - shiftY, 1);
+    colonial2LabelSprite.pushSprite(&canvasSprite, colonial2X - shiftX - 17, colonial2Y - shiftY + 15, 1);
+  }
 
   if (viperView) {
     if (viperNum == 1) {
