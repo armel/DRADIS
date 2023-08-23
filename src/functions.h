@@ -401,6 +401,7 @@ void video() {
             playWav(DRADIS_WAV);
             theme++;
             if (theme > 2) theme = 0;
+            preferences.putUInt("theme", theme); // Save current theme
             break;
           }
         }

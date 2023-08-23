@@ -33,7 +33,9 @@ void setup() {
   preferences.begin(NAME);
   brightness = preferences.getUInt("brightness", BRIGHTNESS);
   theme = preferences.getUInt("theme", 0);
+
   Serial.printf("Brightness = %d\n", brightness);
+  Serial.printf("Theme = %d\n", theme);
 
   // Init Screen
   displayCount = M5.getDisplayCount();
