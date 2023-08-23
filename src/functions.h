@@ -6,7 +6,7 @@ static int mjpegDrawCallback(JPEGDRAW *pDraw) {
   clipSprite.deleteSprite();
   clipSprite.createSprite(pDraw->iWidth, pDraw->iHeight);
   clipSprite.pushImage(0, 0, pDraw->iWidth, pDraw->iHeight, pDraw->pPixels);
-  canvasSprite.pushSprite(&clipSprite, -pDraw->x + 60, -pDraw->y + 20, 0);
+  canvasSprite.pushSprite(&clipSprite, -pDraw->x + 50, -pDraw->y + 20, 0);
 
   for (uint8_t d = 0; d < displayCount; d++) {
     clipSprite.pushSprite(&M5.Displays(d), pDraw->x, pDraw->y);
@@ -271,7 +271,7 @@ void boot() {
 
 // Contact
 void contact() {
-  uint8_t shiftX = 60;
+  uint8_t shiftX = 50;
   uint8_t shiftY = 20;
 
   canvasSprite.fillSprite(0);
