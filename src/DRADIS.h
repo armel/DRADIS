@@ -91,7 +91,7 @@ boolean colonial2View = false;
 boolean raiderView    = false;
 boolean unknownView   = false;
 
-boolean wav = false;
+boolean themeChange = false;
 
 // LED
 #define FASTLED_INTERNAL  // To disable pragma messages on compile

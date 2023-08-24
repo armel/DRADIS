@@ -145,19 +145,21 @@ void setup() {
   // Multitasking task for retreive button
   xTaskCreatePinnedToCore(button,    // Function to implement the task
                           "button",  // Name of the task
-                          1024,      // Stack size in words
+                          4096,      // Stack size in words
                           NULL,      // Task input parameter
                           4,         // Priority of the task
                           NULL,      // Task handle
                           1);        // Core where the task should run
 
+#if BOARD != CORES3
   xTaskCreatePinnedToCore(cylon,    // Function to implement the task
                           "cylon",  // Name of the task
-                          1024,     // Stack size in words
+                          2048,     // Stack size in words
                           NULL,     // Task input parameter
                           4,        // Priority of the task
                           NULL,     // Task handle
                           1);       // Core where the task should run
+#endif
 
   // Boot
   boot();

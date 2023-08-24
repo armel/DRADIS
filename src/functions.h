@@ -190,7 +190,7 @@ void button(void *pvParameters) {
     if (M5.getBoard() == m5::board_t::board_M5Stack || M5.getBoard() == m5::board_t::board_M5StackCore2) {
       step = 4;
       min  = 4;
-      max  = 255;
+      max  = 254;
 
       btnA = M5.BtnA.isPressed();
       btnB = M5.BtnB.isPressed();
@@ -198,7 +198,7 @@ void button(void *pvParameters) {
     } else if (M5.getBoard() == m5::board_t::board_M5StackCoreS3) {
       step = 16;
       min  = 64;
-      max  = 255;
+      max  = 240;
 
       auto t = M5.Touch.getDetail();
       auto c = M5.Touch.getCount();
@@ -234,9 +234,9 @@ void button(void *pvParameters) {
     }
 
     if (btnB) {
-      wav = true;
+      themeChange = true;
     } else {
-      wav = false;
+      themeChange = false;
     }
 
     if (btnA || btnC) {
@@ -403,7 +403,7 @@ void video() {
           // Play video
           mjpegClass.drawJpg();
 
-          if (wav) {
+          if (themeChange) {
             playWav(DRADIS_WAV);
             theme++;
             if (theme > 2) theme = 0;
