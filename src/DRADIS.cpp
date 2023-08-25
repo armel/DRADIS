@@ -154,7 +154,7 @@ void setup() {
 #if BOARD != CORES3
   xTaskCreatePinnedToCore(cylon,    // Function to implement the task
                           "cylon",  // Name of the task
-                          2048,     // Stack size in words
+                          1024,     // Stack size in words
                           NULL,     // Task input parameter
                           4,        // Priority of the task
                           NULL,     // Task handle

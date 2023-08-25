@@ -42,6 +42,7 @@ void cylon(void *pvParameters) {
       fadeall();
       vTaskDelay(pdMS_TO_TICKS(50));
     }
+    Serial.printf("stackHWM Cylon: %d\n", uxTaskGetStackHighWaterMark(NULL));
   }
 }
 
@@ -89,6 +90,7 @@ void button(void *pvParameters) {
 
     if (counter == 600) {
       counter = 0;
+      Serial.printf("stackHWM Button: %d\n", uxTaskGetStackHighWaterMark(NULL));
     }
 
     if (counter == 0) {
