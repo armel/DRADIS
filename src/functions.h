@@ -295,18 +295,22 @@ void boot() {
 // Contact
 void contact() {
   canvasSprite.fillSprite(0);
-  // canvasSprite.drawRect(0, 0, 220, 180, TFT_BLUE);  // For debug
+  canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 180, TFT_BLUE);  // For debug
 
   battlestarSprite.pushSprite(&canvasSprite, battlestarX - shiftX, battlestarY - shiftY + 15, 1);
   labelSprite.deleteSprite();
+  labelSprite.setColorDepth(2);
   labelSprite.createSprite(60, 10);
+  labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   labelSprite.drawString("battlestar", 0, 0);
   labelSprite.pushSprite(&canvasSprite, battlestarX - shiftX - 21, battlestarY - shiftY + 40, 1);
 
   if (colonial1View) {
     colonial1Sprite.pushSprite(&canvasSprite, colonial1X - shiftX, colonial1Y - shiftY, 1);
     labelSprite.deleteSprite();
-    labelSprite.createSprite(60, 10);
+    labelSprite.setColorDepth(2);
+    labelSprite.createSprite(48, 10);
+    labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.drawString("colonial", 0, 0);
     labelSprite.pushSprite(&canvasSprite, colonial1X - shiftX - 17, colonial1Y - shiftY + 15, 1);
   }
@@ -314,7 +318,9 @@ void contact() {
   if (colonial2View) {
     colonial2Sprite.pushSprite(&canvasSprite, colonial2X - shiftX, colonial2Y - shiftY, 1);
     labelSprite.deleteSprite();
-    labelSprite.createSprite(60, 10);
+    labelSprite.setColorDepth(2);
+    labelSprite.createSprite(48, 10);
+    labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.drawString("colonial", 0, 0);
     labelSprite.pushSprite(&canvasSprite, colonial2X - shiftX - 17, colonial2Y - shiftY + 15, 1);
   }
@@ -327,7 +333,9 @@ void contact() {
     viperSprite.pushSprite(&canvasSprite, viperX - shiftX + 15, viperY - shiftY + 15, 1);
 
     labelSprite.deleteSprite();
-    labelSprite.createSprite(60, 10);
+    labelSprite.setColorDepth(2);
+    labelSprite.createSprite(34, 10);
+    labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.drawString("vipers", 0, 0);
 
     labelSprite.pushSprite(&canvasSprite, viperX - shiftX - 8, viperY - shiftY + 40, 1);
@@ -341,7 +349,9 @@ void contact() {
     raptorSprite.pushSprite(&canvasSprite, raptorX - shiftX + 15, raptorY - shiftY + 15, 1);
 
     labelSprite.deleteSprite();
-    labelSprite.createSprite(60, 10);
+    labelSprite.setColorDepth(2);
+    labelSprite.createSprite(40, 10);
+    labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.drawString("raptors", 0, 0);
 
     labelSprite.pushSprite(&canvasSprite, raptorX - shiftX - 10, raptorY - shiftY + 40, 1);
@@ -356,7 +366,9 @@ void contact() {
     }
 
     labelSprite.deleteSprite();
-    labelSprite.createSprite(60, 10);
+    labelSprite.setColorDepth(2);
+    labelSprite.createSprite(40, 10);
+    labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.drawString("raiders", 0, 0);
 
     labelSprite.pushSprite(&canvasSprite, raiderX - shiftX - 12, raiderY - shiftY - 10, 1);
@@ -365,7 +377,9 @@ void contact() {
   if (!raiderView) {
     unknownSprite.pushSprite(&canvasSprite, unknownX - shiftX, unknownY - shiftY, 1);
     labelSprite.deleteSprite();
+    labelSprite.setColorDepth(2);
     labelSprite.createSprite(60, 10);
+    labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.drawString("unknown", 0, 0);
 
     labelSprite.pushSprite(&canvasSprite, unknownX - shiftX - 10, unknownY - shiftY - 10, 1);

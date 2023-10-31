@@ -57,8 +57,10 @@ void setup() {
   esp_random();
 
   // Init Sprite
-  labelSprite.setColorDepth(2);
-  labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  battlestarSprite.setColorDepth(8);
+  battlestarSprite.createSprite(17, 19);
+  battlestarSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  battlestarSprite.drawPng(battlestar, sizeof(battlestar), 0, 0, 17, 19);
 
   viperSprite.setColorDepth(8);
   viperSprite.createSprite(17, 20);
@@ -69,11 +71,6 @@ void setup() {
   raptorSprite.createSprite(17, 20);
   raptorSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raptorSprite.drawPng(raptor, sizeof(raptor), 0, 0, 17, 20);
-
-  battlestarSprite.setColorDepth(8);
-  battlestarSprite.createSprite(17, 19);
-  battlestarSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  battlestarSprite.drawPng(battlestar, sizeof(battlestar), 0, 0, 17, 19);
 
   colonial1Sprite.setColorDepth(8);
   colonial1Sprite.createSprite(16, 10);
@@ -96,7 +93,7 @@ void setup() {
   unknownSprite.drawPng(unknown, sizeof(unknown), 0, 0, 19, 20);
 
   canvasSprite.setColorDepth(8);
-  canvasSprite.createSprite(220, 180);
+  canvasSprite.createSprite(320 - (2 * shiftX), 180);
 
   clipSprite.setColorDepth(16);
 
