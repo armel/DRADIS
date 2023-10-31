@@ -1,10 +1,29 @@
 // Copyright (c) F4HWN Armel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+// Wifi callback On
+void callbackWifiOn(WiFiEvent_t event, WiFiEventInfo_t info) {
+  wifiConnected = true;
+  Serial.println("Wifi Client Connected");
+}
+
+// Wifi callback Got IP
+void callbackWifiGotIP(WiFiEvent_t event, WiFiEventInfo_t info) {
+  Serial.println(WiFi.localIP());
+}
+
+// Wifi callback Off
+void callbackWifiOff(WiFiEvent_t event, WiFiEventInfo_t info) {
+  wifiConnected = false;
+  Serial.println("Wifi Client Disconnected");
+
+  WiFi.begin(myConfig.wifiSSID, myConfig.wifiPassword);
+}
+
 // Get local time
 void updateLocalTime(boolean startup = false) {
-  char timeStringBuff[64];  // 10 chars should be enough
-  char utcStringBuff[64];   // 10 chars should be enough
+  char timeStringBuff[10];  // 10 chars should be enough
+  char utcStringBuff[10];   // 10 chars should be enough
   int utc = 1;
 
   struct tm timeinfo;
@@ -30,9 +49,9 @@ void updateLocalTime(boolean startup = false) {
 
   // Serial.println(utc);
 
-  dateString = String(timeStringBuff);
+  strcpy(localTime, timeStringBuff);
 
-  Serial.println(dateString);
+  Serial.println(localTime);
 }
 
 // Pixel drawing callback
@@ -335,6 +354,11 @@ void boot() {
   else
   {
     if (strcmp(myConfig.wifiSSID, "") != 0 && strcmp(myConfig.wifiPassword, "") != 0) {
+
+      WiFi.onEvent(callbackWifiOn, ARDUINO_EVENT_WIFI_STA_CONNECTED);
+      WiFi.onEvent(callbackWifiGotIP, ARDUINO_EVENT_WIFI_STA_GOT_IP);
+      WiFi.onEvent(callbackWifiOff, ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
+
       while (true) {
         uint8_t attempt = 1;
         WiFi.begin(myConfig.wifiSSID, myConfig.wifiPassword);
@@ -370,13 +394,12 @@ void contact() {
   // canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 220, TFT_BLUE);  // For debug
 
   if (WiFi.status() == WL_CONNECTED) {
-    dateStringOld = dateString;
     labelSprite.deleteSprite();
     labelSprite.setColorDepth(2);
     labelSprite.createSprite(170, 40);
     labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.setFont(&digital_7__mono_24pt7b);
-    labelSprite.drawString(dateString, 0, 0);
+    labelSprite.drawString(localTime, 0, 0);
     labelSprite.pushSprite(&canvasSprite, 27, 176, 1);
   }
 

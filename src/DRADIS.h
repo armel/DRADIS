@@ -111,4 +111,6 @@ uint8_t displayCount = 0;
 uint8_t theme        = 0;
 uint16_t brightness  = BRIGHTNESS;
 
-String dateString, dateStringOld;
+boolean wifiConnected   = 0;
+
+char localTime[10];
