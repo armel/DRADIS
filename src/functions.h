@@ -88,7 +88,7 @@ void button(void *pvParameters) {
 
     if (counter == 600) {
       counter = 0;
-      Serial.printf("stackHWM Button: %d\n", uxTaskGetStackHighWaterMark(NULL));
+      //Serial.printf("stackHWM Button: %d\n", uxTaskGetStackHighWaterMark(NULL));
     }
 
     if (counter == 0) {
