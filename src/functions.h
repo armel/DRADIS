@@ -3,18 +3,16 @@
 
 // Wifi callback Got IP
 void callbackWifiGotIP(WiFiEvent_t event, WiFiEventInfo_t info) {
-
   M5.Displays(0).drawString(String(WiFi.localIP().toString().c_str()), 160, 55);
   Serial.println(WiFi.localIP());
 }
 
 // Get local time
 void setLocalTime() {
-  char timeStringBuff[10];  // 10 chars should be enough
-  int h,m,s, Y, M, D;
+  char timeStringBuff[32];  // 32 chars should be enough
+  int h, m, s, Y, M, D;
 
   struct tm timeinfo;
-
 
   M5.Displays(0).drawString("Local time synchronization", 160, 70);
   while (!getLocalTime(&timeinfo)) {
@@ -22,23 +20,8 @@ void setLocalTime() {
     delay(1000);
   }
 
-  strftime(timeStringBuff, sizeof(timeStringBuff), "%H", &timeinfo);
-  sscanf(timeStringBuff, "%d", &h);
-
-  strftime(timeStringBuff, sizeof(timeStringBuff), "%M", &timeinfo);
-  sscanf(timeStringBuff, "%d", &m);
-
-  strftime(timeStringBuff, sizeof(timeStringBuff), "%S", &timeinfo);
-  sscanf(timeStringBuff, "%d", &s);
-
-  strftime(timeStringBuff, sizeof(timeStringBuff), "%Y", &timeinfo);
-  sscanf(timeStringBuff, "%d", &Y);
-
-  strftime(timeStringBuff, sizeof(timeStringBuff), "%m", &timeinfo);
-  sscanf(timeStringBuff, "%d", &M);
-
-  strftime(timeStringBuff, sizeof(timeStringBuff), "%d", &timeinfo);
-  sscanf(timeStringBuff, "%d", &D);
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%H:%M:%S %Y/%m/%d", &timeinfo);
+  sscanf(timeStringBuff, "%d:%d:%d %d/%d/%d", &h, &m, &s, &Y, &M, &D);
 
   Serial.printf("%d:%d:%d %d/%d/%d\n", h, m, s, D, M, Y);
 
@@ -331,11 +314,8 @@ void boot() {
   // We start by connecting to the WiFi network
   if (ESP.getPsramSize() == 0) {
     Serial.println("No PSRAM");
-  }
-  else
-  {
+  } else {
     if (strcmp(myConfig.wifiSSID, "") != 0 && strcmp(myConfig.wifiPassword, "") != 0) {
-
       WiFi.onEvent(callbackWifiGotIP, ARDUINO_EVENT_WIFI_STA_GOT_IP);
 
       Serial.println("Wifi connect");
@@ -361,8 +341,7 @@ void boot() {
 
       Serial.println("Wifi disconnect");
       WiFi.disconnect();
-    }
-    else {
+    } else {
       Serial.println("No Wifi credentials");
     }
   }
