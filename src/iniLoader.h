@@ -148,8 +148,8 @@ void iniParser(String fileNameSelected, char *media, boolean verbose) {
   SD.end();  // If not Bluetooth doesn't work !!!
 }
 
-// Load Backup
-void backupLoad(boolean verbose) {
+// Ini Load
+void iniLoad(boolean verbose) {
   iniLogMessage((char *)"Loading config file...", 160, 50, verbose);
 
   iniParser("/DRADIS.ini", (char *)"SD", verbose);
@@ -161,5 +161,5 @@ void backupLoad(boolean verbose) {
 void iniLoader() {
   SD.begin(GPIO_NUM_4, SPI, 10000000);
 
-  backupLoad(false);
+  iniLoad(false);
 }

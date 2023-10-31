@@ -99,9 +99,7 @@ void setup() {
   canvasSprite.setColorDepth(8);
   if (ESP.getPsramSize() > 0) {
     canvasSprite.createSprite(320 - (2 * shiftX), 220);
-  }
-  else
-  {
+  } else {
     canvasSprite.createSprite(320 - (2 * shiftX), 180);
   }
 
@@ -126,16 +124,6 @@ void setup() {
                           NULL,      // Task handle
                           1);        // Core where the task should run
 
-  if (ESP.getPsramSize() > 0) {
-    xTaskCreatePinnedToCore(clock,    // Function to implement the task
-                            "clock",  // Name of the task
-                            2048,     // Stack size in words
-                            NULL,     // Task input parameter
-                            4,        // Priority of the task
-                            NULL,     // Task handle
-                            1);       // Core where the task should run
-  }
-
 #if BOARD != CORES3
   xTaskCreatePinnedToCore(cylon,    // Function to implement the task
                           "cylon",  // Name of the task
@@ -148,6 +136,17 @@ void setup() {
 
   // Boot
   boot();
+
+  // Clock
+  if (WiFi.status() == WL_CONNECTED) {
+    xTaskCreatePinnedToCore(clock,    // Function to implement the task
+                            "clock",  // Name of the task
+                            2048,     // Stack size in words
+                            NULL,     // Task input parameter
+                            4,        // Priority of the task
+                            NULL,     // Task handle
+                            1);       // Core where the task should run
+  }
 }
 
 // Main loop

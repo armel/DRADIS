@@ -329,24 +329,32 @@ void boot() {
   M5.Displays(0).drawString(string, 160, 35);
 
   // We start by connecting to the WiFi network
-  if (ESP.getPsramSize() > 0) {
-    while (true) {
-      uint8_t attempt = 1;
-      WiFi.begin(myConfig.wifiSSID, myConfig.wifiPassword);
-      while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        attempt++;
-        if (attempt > 10) {
+  if (ESP.getPsramSize() == 0) {
+    Serial.println("No PSRAM");
+  }
+  else
+  {
+    if (strcmp(myConfig.wifiSSID, "") != 0 && strcmp(myConfig.wifiPassword, "") != 0) {
+      while (true) {
+        uint8_t attempt = 1;
+        WiFi.begin(myConfig.wifiSSID, myConfig.wifiPassword);
+        while (WiFi.status() != WL_CONNECTED) {
+          delay(500);
+          attempt++;
+          if (attempt > 10) {
+            break;
+          }
+        }
+        if (WiFi.status() == WL_CONNECTED) {
           break;
         }
       }
-      if (WiFi.status() == WL_CONNECTED) {
-        break;
-      }
+      configTzTime(myConfig.timeTimeZone, myConfig.timeServer);
     }
-    configTzTime(myConfig.timeTimeZone, myConfig.timeServer);
+    else {
+      Serial.println("No Wifi credentials");
+    }
   }
-
   // Play WAV
   playWav(DRADIS_WAV);
 
@@ -359,21 +367,18 @@ void boot() {
 // Contact
 void contact() {
   canvasSprite.fillSprite(0);
-  //canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 220, TFT_BLUE);  // For debug
+  // canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 220, TFT_BLUE);  // For debug
 
-  //if (WiFi.status() == WL_CONNECTED) {
-  //  updateLocalTime();
-
+  if (WiFi.status() == WL_CONNECTED) {
     dateStringOld = dateString;
     labelSprite.deleteSprite();
     labelSprite.setColorDepth(2);
     labelSprite.createSprite(170, 40);
     labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-    labelSprite.setColor(TFT_DARKGRAY);
-    labelSprite.setFont(&rounded_led_board10pt7b);
+    labelSprite.setFont(&digital_7__mono_24pt7b);
     labelSprite.drawString(dateString, 0, 0);
-    labelSprite.pushSprite(&canvasSprite, 32, 180, 1);
- //}
+    labelSprite.pushSprite(&canvasSprite, 27, 176, 1);
+  }
 
   labelSprite.setFont(0);
   labelSprite.setColor(TFT_WHITE);

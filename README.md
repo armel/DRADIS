@@ -32,6 +32,46 @@ You can compile the source code and flash your M5Stack.
 
 Remember to upload the FileSystem Image too (the `/data` folder content videos, images and wav). If you don't know how to upload the FileSystem Image, take a look at this [tutorial](https://www.donskytech.com/how-to-upload-filesystem-image-in-platformio-ide/).
 
+# Clock feature
+
+If you're using an M5Stack with PSRAM memory (Core Fire, Core2, CoreS3, etc.), you can activate a clock. Prepare and format a micro SD card in FAT32. Edit DRADIS.ini and copy it at the root of the micro SD card.
+
+This is what the `DRADIS.ini` file looks like:
+
+'''
+; Wifi Config
+[wifi]
+wifi_ssid = YOUR_SSID
+wifi_password = YOUR_PASSWORD
+
+; Time Config
+[time]
+time_server = pool.ntp.org
+time_timezone = CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00
+'''
+
+So, complete your `wifi_ssid` and `wifi_password`. Change `time_server` if you want. And finally, specify your `time_timezone`. 
+
+> Note: the default timezone is France (Europe/Paris). If you need to adapt the timezone, consult this more detailed [list](https://github.com/blindsidenetworks/bigbluebutton-1/blob/master/bbb-voice-conference/config/freeswitch/conf/autoload_configs/timezones.conf.xml). As a last resort, contact me if you need help or if you live in an exotic region... Nevertheless, here are a few examples of values:
+
+| Country           | Timezone             | 
+| -------------- | -------------------- |
+| Europe/Paris | CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00 |
+| Europe/Berlin | CET-1CEST,M3.5.0,M10.5.0/3 |
+| Europe/Brussels | CET-1CEST,M3.5.0,M10.5.0/3 |
+| Europe/Bucharest | EET-2EEST,M3.5.0/3,M10.5.0/4 |
+| Europe/London | GMT0BST,M3.5.0/1,M10.5.0 |
+| Europe/Sofia | EET-2EEST,M3.5.0/3,M10.5.0/4 |
+| America/Los_Angeles | PST8PDT,M3.2.0,M11.1.0 |
+| America/New_York | EST5EDT,M3.2.0,M11.1.0 |
+| America/Martinique | AST4 |
+| America/Montreal | EST5EDT,M3.2.0,M11.1.0 |
+| America/Guadeloupe | AST4 |
+| Australia/Brisbane | EST-10 |
+| Asia/Hong_Kong | HKT-8 |
+| Asia/Tokyo | JST-9 |
+| Pacific/Noumea | NCT-11 |
+
 # Credits
  
 Many thanks to...
