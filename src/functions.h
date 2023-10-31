@@ -359,7 +359,7 @@ void boot() {
 // Contact
 void contact() {
   canvasSprite.fillSprite(0);
-  // canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 200, TFT_BLUE);  // For debug
+  //canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 220, TFT_BLUE);  // For debug
 
   //if (WiFi.status() == WL_CONNECTED) {
   //  updateLocalTime();
@@ -367,12 +367,12 @@ void contact() {
     dateStringOld = dateString;
     labelSprite.deleteSprite();
     labelSprite.setColorDepth(2);
-    labelSprite.createSprite(90, 20);
+    labelSprite.createSprite(170, 40);
     labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.setColor(TFT_DARKGRAY);
-    labelSprite.setFont(&YELLOWCRE8pt7b);
+    labelSprite.setFont(&rounded_led_board10pt7b);
     labelSprite.drawString(dateString, 0, 0);
-    labelSprite.pushSprite(&canvasSprite, 65, 180, 1);
+    labelSprite.pushSprite(&canvasSprite, 32, 180, 1);
  //}
 
   labelSprite.setFont(0);

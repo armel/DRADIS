@@ -97,7 +97,13 @@ void setup() {
   unknownSprite.drawPng(unknown, sizeof(unknown), 0, 0, 19, 20);
 
   canvasSprite.setColorDepth(8);
-  canvasSprite.createSprite(320 - (2 * shiftX), 200);
+  if (ESP.getPsramSize() > 0) {
+    canvasSprite.createSprite(320 - (2 * shiftX), 220);
+  }
+  else
+  {
+    canvasSprite.createSprite(320 - (2 * shiftX), 180);
+  }
 
   clipSprite.setColorDepth(16);
 
@@ -120,13 +126,15 @@ void setup() {
                           NULL,      // Task handle
                           1);        // Core where the task should run
 
-  xTaskCreatePinnedToCore(clock,    // Function to implement the task
-                          "clock",  // Name of the task
-                          2048,     // Stack size in words
-                          NULL,     // Task input parameter
-                          4,        // Priority of the task
-                          NULL,     // Task handle
-                          1);       // Core where the task should run
+  if (ESP.getPsramSize() > 0) {
+    xTaskCreatePinnedToCore(clock,    // Function to implement the task
+                            "clock",  // Name of the task
+                            2048,     // Stack size in words
+                            NULL,     // Task input parameter
+                            4,        // Priority of the task
+                            NULL,     // Task handle
+                            1);       // Core where the task should run
+  }
 
 #if BOARD != CORES3
   xTaskCreatePinnedToCore(cylon,    // Function to implement the task
