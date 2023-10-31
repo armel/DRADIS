@@ -323,23 +323,24 @@ void boot() {
   M5.Displays(0).drawString(string, 160, 35);
 
   // We start by connecting to the WiFi network
-  while (true) {
-    uint8_t attempt = 1;
-    WiFi.begin(myConfig.wifiSSID, myConfig.wifiPassword);
-    while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
-      attempt++;
-      if (attempt > 10) {
+  if (ESP.getPsramSize() > 0) {
+    while (true) {
+      uint8_t attempt = 1;
+      WiFi.begin(myConfig.wifiSSID, myConfig.wifiPassword);
+      while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        attempt++;
+        if (attempt > 10) {
+          break;
+        }
+      }
+      if (WiFi.status() == WL_CONNECTED) {
         break;
       }
     }
-    if (WiFi.status() == WL_CONNECTED) {
-      break;
-    }
+    configTzTime(myConfig.timeTimeZone, myConfig.timeServer);
   }
 
-  configTzTime(myConfig.timeTimeZone, myConfig.timeServer);
-  updateLocalTime();
 
   // Play WAV
   playWav(DRADIS_WAV);
