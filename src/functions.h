@@ -32,11 +32,7 @@ void updateLocalTime(boolean startup = false) {
 
   dateString = String(timeStringBuff);
 
-  if(dateString != dateStringOld)
-  {
-    dateStringOld = dateString;
-    Serial.println(dateString);
-  }
+  Serial.println(dateString);
 }
 
 // Pixel drawing callback
@@ -54,6 +50,16 @@ static int mjpegDrawCallback(JPEGDRAW *pDraw) {
 void fadeall() {
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i].nscale8(100);
+  }
+}
+
+// Clock
+void clock(void *pvParameters) {
+  for (;;) {
+    if (WiFi.status() == WL_CONNECTED) {
+      updateLocalTime();
+    }
+    vTaskDelay(pdMS_TO_TICKS(1000));
   }
 }
 
@@ -341,7 +347,6 @@ void boot() {
     configTzTime(myConfig.timeTimeZone, myConfig.timeServer);
   }
 
-
   // Play WAV
   playWav(DRADIS_WAV);
 
@@ -354,10 +359,10 @@ void boot() {
 // Contact
 void contact() {
   canvasSprite.fillSprite(0);
-  //canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 200, TFT_BLUE);  // For debug
+  // canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 200, TFT_BLUE);  // For debug
 
-  if (WiFi.status() == WL_CONNECTED) {
-    updateLocalTime();
+  //if (WiFi.status() == WL_CONNECTED) {
+  //  updateLocalTime();
 
     dateStringOld = dateString;
     labelSprite.deleteSprite();
@@ -368,7 +373,7 @@ void contact() {
     labelSprite.setFont(&YELLOWCRE8pt7b);
     labelSprite.drawString(dateString, 0, 0);
     labelSprite.pushSprite(&canvasSprite, 65, 180, 1);
-  }
+ //}
 
   labelSprite.setFont(0);
   labelSprite.setColor(TFT_WHITE);
