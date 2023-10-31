@@ -1,57 +1,48 @@
 // Copyright (c) F4HWN Armel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-// Wifi callback On
-void callbackWifiOn(WiFiEvent_t event, WiFiEventInfo_t info) {
-  wifiConnected = true;
-  Serial.println("Wifi Client Connected");
-}
-
 // Wifi callback Got IP
 void callbackWifiGotIP(WiFiEvent_t event, WiFiEventInfo_t info) {
+
+  M5.Displays(0).drawString(String(WiFi.localIP().toString().c_str()), 160, 55);
   Serial.println(WiFi.localIP());
 }
 
-// Wifi callback Off
-void callbackWifiOff(WiFiEvent_t event, WiFiEventInfo_t info) {
-  wifiConnected = false;
-  Serial.println("Wifi Client Disconnected");
-
-  WiFi.begin(myConfig.wifiSSID, myConfig.wifiPassword);
-}
-
 // Get local time
-void updateLocalTime(boolean startup = false) {
+void setLocalTime() {
   char timeStringBuff[10];  // 10 chars should be enough
-  char utcStringBuff[10];   // 10 chars should be enough
-  int utc = 1;
+  int h,m,s, Y, M, D;
 
   struct tm timeinfo;
 
-  if (startup) {
-    while (!getLocalTime(&timeinfo)) {
-      M5.Displays(0).drawString("Synchronisation heure locale", 160, 70);
-      Serial.println("Failed to obtain time");
-      delay(1000);
-    }
-  } else {
-    if (!getLocalTime(&timeinfo)) {
-      Serial.println("Failed to obtain time");
-      return;
-    }
+
+  M5.Displays(0).drawString("Local time synchronization", 160, 70);
+  while (!getLocalTime(&timeinfo)) {
+    Serial.println("Failed to obtain time");
+    delay(1000);
   }
 
-  strftime(timeStringBuff, sizeof(timeStringBuff), "%H:%M:%S", &timeinfo);
-  strftime(utcStringBuff, sizeof(utcStringBuff), "%z", &timeinfo);
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%H", &timeinfo);
+  sscanf(timeStringBuff, "%d", &h);
 
-  sscanf(utcStringBuff, "%d", &utc);
-  utc = utc / 100;
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%M", &timeinfo);
+  sscanf(timeStringBuff, "%d", &m);
 
-  // Serial.println(utc);
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%S", &timeinfo);
+  sscanf(timeStringBuff, "%d", &s);
 
-  strcpy(localTime, timeStringBuff);
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%Y", &timeinfo);
+  sscanf(timeStringBuff, "%d", &Y);
 
-  Serial.println(localTime);
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%m", &timeinfo);
+  sscanf(timeStringBuff, "%d", &M);
+
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%d", &timeinfo);
+  sscanf(timeStringBuff, "%d", &D);
+
+  Serial.printf("%d:%d:%d %d/%d/%d\n", h, m, s, D, M, Y);
+
+  rtc.setTime(s, m, h, D, M, Y);
 }
 
 // Pixel drawing callback
@@ -69,16 +60,6 @@ static int mjpegDrawCallback(JPEGDRAW *pDraw) {
 void fadeall() {
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i].nscale8(100);
-  }
-}
-
-// Clock
-void clock(void *pvParameters) {
-  for (;;) {
-    if (WiFi.status() == WL_CONNECTED) {
-      updateLocalTime();
-    }
-    vTaskDelay(pdMS_TO_TICKS(1000));
   }
 }
 
@@ -355,9 +336,9 @@ void boot() {
   {
     if (strcmp(myConfig.wifiSSID, "") != 0 && strcmp(myConfig.wifiPassword, "") != 0) {
 
-      WiFi.onEvent(callbackWifiOn, ARDUINO_EVENT_WIFI_STA_CONNECTED);
       WiFi.onEvent(callbackWifiGotIP, ARDUINO_EVENT_WIFI_STA_GOT_IP);
-      WiFi.onEvent(callbackWifiOff, ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
+
+      Serial.println("Wifi connect");
 
       while (true) {
         uint8_t attempt = 1;
@@ -373,7 +354,13 @@ void boot() {
           break;
         }
       }
+
+      Serial.println("Set local time");
       configTzTime(myConfig.timeTimeZone, myConfig.timeServer);
+      setLocalTime();
+
+      Serial.println("Wifi disconnect");
+      WiFi.disconnect();
     }
     else {
       Serial.println("No Wifi credentials");
@@ -393,13 +380,13 @@ void contact() {
   canvasSprite.fillSprite(0);
   // canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 220, TFT_BLUE);  // For debug
 
-  if (WiFi.status() == WL_CONNECTED) {
+  if (ESP.getPsramSize() > 0) {
     labelSprite.deleteSprite();
     labelSprite.setColorDepth(2);
     labelSprite.createSprite(170, 40);
     labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
     labelSprite.setFont(&digital_7__mono_24pt7b);
-    labelSprite.drawString(localTime, 0, 0);
+    labelSprite.drawString(rtc.getTime("%H:%M:%S"), 0, 0);
     labelSprite.pushSprite(&canvasSprite, 27, 176, 1);
   }
 

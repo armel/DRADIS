@@ -136,17 +136,6 @@ void setup() {
 
   // Boot
   boot();
-
-  // Clock
-  if (WiFi.status() == WL_CONNECTED) {
-    xTaskCreatePinnedToCore(clock,    // Function to implement the task
-                            "clock",  // Name of the task
-                            2048,     // Stack size in words
-                            NULL,     // Task input parameter
-                            4,        // Priority of the task
-                            NULL,     // Task handle
-                            1);       // Core where the task should run
-  }
 }
 
 // Main loop

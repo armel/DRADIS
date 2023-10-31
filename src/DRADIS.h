@@ -32,10 +32,14 @@
 #include <M5Unified.h>
 #include <WiFi.h>
 #include <time.h>
+#include <ESP32Time.h>
 #include "MjpegClass.h"
 
 // Preferences
 Preferences preferences;
+
+// RTC
+ESP32Time rtc;
 
 // Sprite
 LGFX_Sprite labelSprite(&M5.Display);
@@ -99,18 +103,17 @@ struct Config {
 
 Config myConfig;
 
-// Variables
+// Filesystem
 static MjpegClass mjpegClass;
 
 fs::File root;
 fs::File mjpegFile;
 
+// Miscellaneous
+
 uint8_t shiftX       = 50;
 uint8_t shiftY       = 20;
 uint8_t displayCount = 0;
 uint8_t theme        = 0;
+
 uint16_t brightness  = BRIGHTNESS;
-
-boolean wifiConnected   = 0;
-
-char localTime[10];
