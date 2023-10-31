@@ -26,7 +26,6 @@
 // Dependencies
 #include <Preferences.h>
 #include <LittleFS.h>
-#include <SD.h>
 #include <FastLED.h>
 #include <M5Unified.h>
 #include "MjpegClass.h"
