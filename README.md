@@ -32,7 +32,7 @@ You can compile the source code and flash your M5Stack.
 
 Remember to upload the FileSystem Image too (the `/data` folder content videos, images and wav). If you don't know how to upload the FileSystem Image, take a look at this [tutorial](https://www.donskytech.com/how-to-upload-filesystem-image-in-platformio-ide/).
 
-# Clock feature
+# Clock feature ![fire](https://img.shields.io/badge/M5Stack-FIRE-orange) ![core2](https://img.shields.io/badge/M5Stack-CORE2-green) ![aws](https://img.shields.io/badge/M5Stack-AWS-orange) ![cores3](https://img.shields.io/badge/M5Stack-CORES3-purple)
 
 If you're using an M5Stack with __PSRAM memory__ (![fire](https://img.shields.io/badge/M5Stack-FIRE-orange) ![core2](https://img.shields.io/badge/M5Stack-CORE2-green) ![aws](https://img.shields.io/badge/M5Stack-AWS-orange) ![cores3](https://img.shields.io/badge/M5Stack-CORES3-purple)), you can activate a clock. Prepare a FAT32 formated micro SD card. Edit DRADIS.ini and copy it at the root of the micro SD card.
 
