@@ -35,28 +35,19 @@
 Preferences preferences;
 
 // Sprite
+LGFX_Sprite labelSprite(&M5.Display);
+
 LGFX_Sprite viperSprite(&M5.Display);
-LGFX_Sprite viperLabelSprite(&M5.Display);
-
 LGFX_Sprite raptorSprite(&M5.Display);
-LGFX_Sprite raptorLabelSprite(&M5.Display);
-
 LGFX_Sprite battlestarSprite(&M5.Display);
-LGFX_Sprite battlestarLabelSprite(&M5.Display);
-
 LGFX_Sprite colonial1Sprite(&M5.Display);
-LGFX_Sprite colonial1LabelSprite(&M5.Display);
-
 LGFX_Sprite colonial2Sprite(&M5.Display);
-LGFX_Sprite colonial2LabelSprite(&M5.Display);
 
 LGFX_Sprite raiderSprite(&M5.Display);
-LGFX_Sprite raiderLabelSprite(&M5.Display);
-
 LGFX_Sprite unknownSprite(&M5.Display);
-LGFX_Sprite unknownLabelSprite(&M5.Display);
 
 LGFX_Sprite canvasSprite(&M5.Display);
+
 LGFX_Sprite clipSprite(&M5.Display);
 
 uint8_t viperNum  = 0;
