@@ -52,7 +52,7 @@ time_timezone = CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00
 
 So, complete your `wifi_ssid` and `wifi_password`. Change `time_server` if you want. And finally, specify your `time_timezone`. 
 
-> Note: the default timezone is France (Europe/Paris). If you need to adapt the timezone, consult this more detailed [list](https://github.com/blindsidenetworks/bigbluebutton-1/blob/master/bbb-voice-conference/config/freeswitch/conf/autoload_configs/timezones.conf.xml). As a last resort, contact me if you need help or if you live in an exotic region... Nevertheless, here are a few examples of values:
+> Note: the default timezone is France (Europe/Paris). If you need to adapt the timezone, consult this more detailed [list](https://github.com/blindsidenetworks/bigbluebutton-1/blob/master/bbb-voice-conference/config/freeswitch/conf/autoload_configs/timezones.conf.xml). Contact me if you need help or if you live in an exotic region... Nevertheless, here are a few examples of values:
 
 | Country           | Timezone             | 
 | -------------- | -------------------- |
@@ -71,6 +71,10 @@ So, complete your `wifi_ssid` and `wifi_password`. Change `time_server` if you w
 | Asia/Hong_Kong | HKT-8 |
 | Asia/Tokyo | JST-9 |
 | Pacific/Noumea | NCT-11 |
+
+
+When your M5Stack starts up, if your `DRADIS.ini` file is present at the root of your micro SD card and if it is valid, you will see the time displayed. 
+
 
 # Credits
  
