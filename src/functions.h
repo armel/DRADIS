@@ -6,11 +6,9 @@ static int mjpegDrawCallback(JPEGDRAW *pDraw) {
   clipSprite.deleteSprite();
   clipSprite.createSprite(pDraw->iWidth, pDraw->iHeight);
   clipSprite.pushImage(0, 0, pDraw->iWidth, pDraw->iHeight, pDraw->pPixels);
-  canvasSprite.pushSprite(&clipSprite, -pDraw->x + 50, -pDraw->y + 20, 0);
+  canvasSprite.pushSprite(&clipSprite, -pDraw->x + shiftX, -pDraw->y + shiftY, 0);
+  clipSprite.pushSprite(&M5.Displays(0), pDraw->x, pDraw->y);
 
-  for (uint8_t d = 0; d < displayCount; d++) {
-    clipSprite.pushSprite(&M5.Displays(d), pDraw->x, pDraw->y);
-  }
   return 1;
 }
 
@@ -42,7 +40,7 @@ void cylon(void *pvParameters) {
       fadeall();
       vTaskDelay(pdMS_TO_TICKS(50));
     }
-    Serial.printf("stackHWM Cylon: %d\n", uxTaskGetStackHighWaterMark(NULL));
+    // Serial.printf("stackHWM Cylon: %d\n", uxTaskGetStackHighWaterMark(NULL));
   }
 }
 
@@ -110,11 +108,11 @@ void button(void *pvParameters) {
       battlestarY    = 130 + random(-10, 10);
       battlestarStep = random(-1, 2);
 
-      colonial1X    = 160 + random(-60, -30);
-      colonial1Y    = 115 + random(-10, 10);
+      colonial1X = 160 + random(-60, -30);
+      colonial1Y = 115 + random(-10, 10);
 
-      colonial2X    = 160 + random(30, 60);
-      colonial2Y    = 125 + random(-10, 10);
+      colonial2X = 160 + random(30, 60);
+      colonial2Y = 125 + random(-10, 10);
 
       raiderNum  = random(0, 2);
       raiderView = random(0, 2);
@@ -148,17 +146,15 @@ void button(void *pvParameters) {
         }
       }
 
-      if(viperView == 0 && raptorView == 0)
-      {
+      if (viperView == 0 && raptorView == 0) {
         colonial1View = 1;
         colonial2View = 1;
 
-        if (sqrt((colonial1X - colonial2X) * (colonial1X - colonial2X) + (colonial1Y - colonial2Y) * (colonial1Y - colonial2Y)) < 20) {
+        if (sqrt((colonial1X - colonial2X) * (colonial1X - colonial2X) +
+                 (colonial1Y - colonial2Y) * (colonial1Y - colonial2Y)) < 20) {
           colonial2View = 0;
         }
-      }
-      else
-      {
+      } else {
         colonial1View = 0;
         colonial2View = 0;
       }
@@ -270,25 +266,23 @@ void button(void *pvParameters) {
 
 // Boot
 void boot() {
-  for (uint8_t d = 0; d < displayCount; d++) {
-    char string[64];
+  char string[64];
 
-    if (!LittleFS.begin()) {
-      Serial.println(F("ERROR: File System Mount Failed!"));
-    } else {
-      M5.Displays(d).drawPngFile(LittleFS, DRADIS_LOGO, 0, 75, 320, 90);
-    }
-
-    M5.Displays(d).setFont(&Ubuntu_Medium6pt7b);
-    M5.Displays(d).setTextDatum(CC_DATUM);
-    M5.Displays(d).setTextColor(TFT_WHITE, TFT_DRADIS);
-
-    sprintf(string, "%s Version %s", NAME, VERSION);
-    M5.Displays(d).drawString(string, 160, 20);
-
-    sprintf(string, "by %s", AUTHOR);
-    M5.Displays(d).drawString(string, 160, 35);
+  if (!LittleFS.begin()) {
+    Serial.println(F("ERROR: File System Mount Failed!"));
+  } else {
+    M5.Displays(0).drawPngFile(LittleFS, DRADIS_LOGO, 0, 75, 320, 90);
   }
+
+  M5.Displays(0).setFont(&Ubuntu_Medium6pt7b);
+  M5.Displays(0).setTextDatum(CC_DATUM);
+  M5.Displays(0).setTextColor(TFT_WHITE, TFT_DRADIS);
+
+  sprintf(string, "%s Version %s", NAME, VERSION);
+  M5.Displays(0).drawString(string, 160, 20);
+
+  sprintf(string, "by %s", AUTHOR);
+  M5.Displays(0).drawString(string, 160, 35);
 
   playWav(DRADIS_WAV);
 
@@ -300,23 +294,18 @@ void boot() {
 
 // Contact
 void contact() {
-  uint8_t shiftX = 50;
-  uint8_t shiftY = 20;
-
   canvasSprite.fillSprite(0);
-  //canvasSprite.drawRect(0, 0, 220, 180, TFT_BLUE);  // For debug
+  // canvasSprite.drawRect(0, 0, 220, 180, TFT_BLUE);  // For debug
 
   battlestarSprite.pushSprite(&canvasSprite, battlestarX - shiftX, battlestarY - shiftY + 15, 1);
   battlestarLabelSprite.pushSprite(&canvasSprite, battlestarX - shiftX - 21, battlestarY - shiftY + 40, 1);
 
-  if(colonial1View)
-  {
+  if (colonial1View) {
     colonial1Sprite.pushSprite(&canvasSprite, colonial1X - shiftX, colonial1Y - shiftY, 1);
     colonial1LabelSprite.pushSprite(&canvasSprite, colonial1X - shiftX - 17, colonial1Y - shiftY + 15, 1);
   }
 
-  if(colonial2View)
-  {
+  if (colonial2View) {
     colonial2Sprite.pushSprite(&canvasSprite, colonial2X - shiftX, colonial2Y - shiftY, 1);
     colonial2LabelSprite.pushSprite(&canvasSprite, colonial2X - shiftX - 17, colonial2Y - shiftY + 15, 1);
   }
@@ -409,7 +398,7 @@ void video() {
             playWav(DRADIS_WAV);
             theme++;
             if (theme > 2) theme = 0;
-            preferences.putUInt("theme", theme); // Save current theme
+            preferences.putUInt("theme", theme);  // Save current theme
             break;
           }
         }

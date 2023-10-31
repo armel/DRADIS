@@ -13,15 +13,15 @@ void setup() {
   auto cfg = M5.config();
 
   cfg.clear_display = true;   // default=true. clear the screen when begin.
-  cfg.internal_imu  = true;   // default=true. use internal IMU.
-  cfg.internal_rtc  = true;   // default=true. use internal RTC.
   cfg.internal_spk  = true;   // default=true. use internal speaker.
-  cfg.internal_mic  = true;   // default=true. use internal microphone.
+  cfg.internal_imu  = false;   // default=true. use internal IMU.
+  cfg.internal_rtc  = false;   // default=true. use internal RTC.
+  cfg.internal_mic  = false;   // default=true. use internal microphone.
   cfg.external_imu  = false;  // default=false. use Unit Accel & Gyro.
   cfg.external_rtc  = false;  // default=false. use Unit RTC.
 
-  cfg.external_display.module_display = true;   // default=true. use ModuleDisplay
-  cfg.external_display.atom_display   = true;   // default=true. use AtomDisplay
+  cfg.external_display.module_display = false;   // default=true. use ModuleDisplay
+  cfg.external_display.atom_display   = false;   // default=true. use AtomDisplay
   cfg.external_display.unit_oled      = false;  // default=true. use UnitOLED
   cfg.external_display.unit_lcd       = false;  // default=true. use UnitLCD
   cfg.external_display.unit_rca       = false;  // default=false. use UnitRCA VideoOutput
@@ -145,7 +145,7 @@ void setup() {
   // Multitasking task for retreive button
   xTaskCreatePinnedToCore(button,    // Function to implement the task
                           "button",  // Name of the task
-                          4096,      // Stack size in words
+                          2048,      // Stack size in words
                           NULL,      // Task input parameter
                           4,         // Priority of the task
                           NULL,      // Task handle

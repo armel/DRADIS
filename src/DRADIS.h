@@ -23,18 +23,11 @@
 
 #define MJPEG_BUFFER_SIZE 320 * 240  // Memory for a single JPEG frame
 
-#define M5MODULEDISPLAY_LOGICAL_WIDTH  WIDTH   // Width
-#define M5MODULEDISPLAY_LOGICAL_HEIGHT HEIGHT  // Height
-#define M5MODULEDISPLAY_REFRESH_RATE   60      // Refresh rate
-#define M5MODULEDISPLAY_OUTPUT_WIDTH   960
-#define M5MODULEDISPLAY_OUTPUT_HEIGHT  480
-
 // Dependencies
 #include <Preferences.h>
 #include <LittleFS.h>
 #include <SD.h>
 #include <FastLED.h>
-#include <M5ModuleDisplay.h>
 #include <M5Unified.h>
 #include "MjpegClass.h"
 
@@ -107,6 +100,8 @@ static MjpegClass mjpegClass;
 fs::File root;
 fs::File mjpegFile;
 
+uint8_t shiftX       = 50;
+uint8_t shiftY       = 20;
 uint8_t displayCount = 0;
 uint8_t theme        = 0;
 uint16_t brightness  = BRIGHTNESS;
