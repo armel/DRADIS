@@ -21,13 +21,17 @@
 
 #define TFT_DRADIS M5.Displays(0).color565(16, 16, 16)
 
-#define MJPEG_BUFFER_SIZE 320 * 240  // Memory for a single JPEG frame
+#define MJPEG_BUFFER_SIZE 320 * 64  // Memory for a single JPEG frame
 
 // Dependencies
 #include <Preferences.h>
 #include <LittleFS.h>
+#include <SD.h>
 #include <FastLED.h>
+#include <IniFile.h>
 #include <M5Unified.h>
+#include <WiFi.h>
+#include <time.h>
 #include "MjpegClass.h"
 
 // Preferences
@@ -84,6 +88,17 @@ CRGB leds[NUM_LEDS];
 int8_t ledOn        = 0;
 int8_t ledDirection = 1;
 
+// Config
+struct Config {
+  char wifiSSID[64];      // Wifi SSID
+  char wifiPassword[64];  // Wifi Password
+
+  char timeServer[128] = "";	// NTP Server
+  char timeTimeZone[128] = "";  // Geolocation timezone
+};
+
+Config myConfig;
+
 // Variables
 static MjpegClass mjpegClass;
 
@@ -95,3 +110,5 @@ uint8_t shiftY       = 20;
 uint8_t displayCount = 0;
 uint8_t theme        = 0;
 uint16_t brightness  = BRIGHTNESS;
+
+String dateString, dateStringOld;

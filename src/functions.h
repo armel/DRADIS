@@ -1,6 +1,44 @@
 // Copyright (c) F4HWN Armel. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+// Get local time
+void updateLocalTime(boolean startup = false) {
+  char timeStringBuff[64];  // 10 chars should be enough
+  char utcStringBuff[64];   // 10 chars should be enough
+  int utc = 1;
+
+  struct tm timeinfo;
+
+  if (startup) {
+    while (!getLocalTime(&timeinfo)) {
+      M5.Displays(0).drawString("Synchronisation heure locale", 160, 70);
+      Serial.println("Failed to obtain time");
+      delay(1000);
+    }
+  } else {
+    if (!getLocalTime(&timeinfo)) {
+      Serial.println("Failed to obtain time");
+      return;
+    }
+  }
+
+  strftime(timeStringBuff, sizeof(timeStringBuff), "%H:%M:%S", &timeinfo);
+  strftime(utcStringBuff, sizeof(utcStringBuff), "%z", &timeinfo);
+
+  sscanf(utcStringBuff, "%d", &utc);
+  utc = utc / 100;
+
+  // Serial.println(utc);
+
+  dateString = String(timeStringBuff);
+
+  if(dateString != dateStringOld)
+  {
+    dateStringOld = dateString;
+    Serial.println(dateString);
+  }
+}
+
 // Pixel drawing callback
 static int mjpegDrawCallback(JPEGDRAW *pDraw) {
   clipSprite.deleteSprite();
@@ -88,7 +126,7 @@ void button(void *pvParameters) {
 
     if (counter == 600) {
       counter = 0;
-      //Serial.printf("stackHWM Button: %d\n", uxTaskGetStackHighWaterMark(NULL));
+      // Serial.printf("stackHWM Button: %d\n", uxTaskGetStackHighWaterMark(NULL));
     }
 
     if (counter == 0) {
@@ -284,6 +322,26 @@ void boot() {
   sprintf(string, "by %s", AUTHOR);
   M5.Displays(0).drawString(string, 160, 35);
 
+  // We start by connecting to the WiFi network
+  while (true) {
+    uint8_t attempt = 1;
+    WiFi.begin(myConfig.wifiSSID, myConfig.wifiPassword);
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      attempt++;
+      if (attempt > 10) {
+        break;
+      }
+    }
+    if (WiFi.status() == WL_CONNECTED) {
+      break;
+    }
+  }
+
+  configTzTime(myConfig.timeTimeZone, myConfig.timeServer);
+  updateLocalTime();
+
+  // Play WAV
   playWav(DRADIS_WAV);
 
   delay(2000);
@@ -295,7 +353,24 @@ void boot() {
 // Contact
 void contact() {
   canvasSprite.fillSprite(0);
-  canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 180, TFT_BLUE);  // For debug
+  //canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 200, TFT_BLUE);  // For debug
+
+  if (WiFi.status() == WL_CONNECTED) {
+    updateLocalTime();
+
+    dateStringOld = dateString;
+    labelSprite.deleteSprite();
+    labelSprite.setColorDepth(2);
+    labelSprite.createSprite(90, 20);
+    labelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+    labelSprite.setColor(TFT_DARKGRAY);
+    labelSprite.setFont(&YELLOWCRE8pt7b);
+    labelSprite.drawString(dateString, 0, 0);
+    labelSprite.pushSprite(&canvasSprite, 65, 180, 1);
+  }
+
+  labelSprite.setFont(0);
+  labelSprite.setColor(TFT_WHITE);
 
   battlestarSprite.pushSprite(&canvasSprite, battlestarX - shiftX, battlestarY - shiftY + 15, 1);
   labelSprite.deleteSprite();
@@ -388,8 +463,14 @@ void contact() {
 
 // Video
 void video() {
+  Serial.printf("Start %d kb %d kb %d kb %d kb\n", ESP.getHeapSize() / 1024, ESP.getFreeHeap() / 1024,
+                ESP.getPsramSize() / 1024, ESP.getFreePsram() / 1024);
+
   uint8_t *mjpegBuf = (uint8_t *)malloc(MJPEG_BUFFER_SIZE);
   char *filename;
+
+  Serial.printf("Malloc %d kb %d kb %d kb %d kb\n", ESP.getHeapSize() / 1024, ESP.getFreeHeap() / 1024,
+                ESP.getPsramSize() / 1024, ESP.getFreePsram() / 1024);
 
   while (1) {
     switch (theme) {
@@ -448,7 +529,7 @@ void video() {
         mjpegFile.close();
         // free(mjpegBuf);
       }
-      Serial.printf("%d kb %d kb %d kb %d kb\n", ESP.getHeapSize() / 1024, ESP.getFreeHeap() / 1024,
+      Serial.printf("Stop %d kb %d kb %d kb %d kb\n", ESP.getHeapSize() / 1024, ESP.getFreeHeap() / 1024,
                     ESP.getPsramSize() / 1024, ESP.getFreePsram() / 1024);
     }
   }

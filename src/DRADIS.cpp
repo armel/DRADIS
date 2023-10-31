@@ -6,6 +6,7 @@
 #include "wav.h"
 #include "sprites.h"
 #include "functions.h"
+#include "iniLoader.h"
 
 // Setup
 void setup() {
@@ -14,8 +15,8 @@ void setup() {
 
   cfg.clear_display = true;   // default=true. clear the screen when begin.
   cfg.internal_spk  = true;   // default=true. use internal speaker.
+  cfg.internal_rtc  = true;   // default=true. use internal RTC.
   cfg.internal_imu  = false;  // default=true. use internal IMU.
-  cfg.internal_rtc  = false;  // default=true. use internal RTC.
   cfg.internal_mic  = false;  // default=true. use internal microphone.
   cfg.external_imu  = false;  // default=false. use Unit Accel & Gyro.
   cfg.external_rtc  = false;  // default=false. use Unit RTC.
@@ -56,6 +57,9 @@ void setup() {
   // Init Rand
   esp_random();
 
+  // Ini Loader
+  iniLoader();
+
   // Init Sprite
   battlestarSprite.setColorDepth(8);
   battlestarSprite.createSprite(17, 19);
@@ -93,7 +97,7 @@ void setup() {
   unknownSprite.drawPng(unknown, sizeof(unknown), 0, 0, 19, 20);
 
   canvasSprite.setColorDepth(8);
-  canvasSprite.createSprite(320 - (2 * shiftX), 180);
+  canvasSprite.createSprite(320 - (2 * shiftX), 200);
 
   clipSprite.setColorDepth(16);
 
