@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // Version
-#define VERSION "1.2.0"
+#define VERSION "1.3.0"
 #define AUTHOR  "F4HWN"
 #define NAME    "DRADIS"
 
@@ -21,49 +21,40 @@
 
 #define TFT_DRADIS M5.Displays(0).color565(16, 16, 16)
 
-#define MJPEG_BUFFER_SIZE 320 * 240  // Memory for a single JPEG frame
-
-#define M5MODULEDISPLAY_LOGICAL_WIDTH  WIDTH   // Width
-#define M5MODULEDISPLAY_LOGICAL_HEIGHT HEIGHT  // Height
-#define M5MODULEDISPLAY_REFRESH_RATE   60      // Refresh rate
-#define M5MODULEDISPLAY_OUTPUT_WIDTH   960
-#define M5MODULEDISPLAY_OUTPUT_HEIGHT  480
+#define MJPEG_BUFFER_SIZE 320 * 64  // Memory for a single JPEG frame
 
 // Dependencies
 #include <Preferences.h>
 #include <LittleFS.h>
 #include <SD.h>
 #include <FastLED.h>
-#include <M5ModuleDisplay.h>
+#include <IniFile.h>
 #include <M5Unified.h>
+#include <WiFi.h>
+#include <time.h>
+#include <ESP32Time.h>
 #include "MjpegClass.h"
 
 // Preferences
 Preferences preferences;
 
+// RTC
+ESP32Time rtc;
+
 // Sprite
+LGFX_Sprite labelSprite(&M5.Display);
+
 LGFX_Sprite viperSprite(&M5.Display);
-LGFX_Sprite viperLabelSprite(&M5.Display);
-
 LGFX_Sprite raptorSprite(&M5.Display);
-LGFX_Sprite raptorLabelSprite(&M5.Display);
-
 LGFX_Sprite battlestarSprite(&M5.Display);
-LGFX_Sprite battlestarLabelSprite(&M5.Display);
-
 LGFX_Sprite colonial1Sprite(&M5.Display);
-LGFX_Sprite colonial1LabelSprite(&M5.Display);
-
 LGFX_Sprite colonial2Sprite(&M5.Display);
-LGFX_Sprite colonial2LabelSprite(&M5.Display);
 
 LGFX_Sprite raiderSprite(&M5.Display);
-LGFX_Sprite raiderLabelSprite(&M5.Display);
-
 LGFX_Sprite unknownSprite(&M5.Display);
-LGFX_Sprite unknownLabelSprite(&M5.Display);
 
 LGFX_Sprite canvasSprite(&M5.Display);
+
 LGFX_Sprite clipSprite(&M5.Display);
 
 uint8_t viperNum  = 0;
@@ -101,12 +92,28 @@ CRGB leds[NUM_LEDS];
 int8_t ledOn        = 0;
 int8_t ledDirection = 1;
 
-// Variables
+// Config
+struct Config {
+  char wifiSSID[64];      // Wifi SSID
+  char wifiPassword[64];  // Wifi Password
+
+  char timeServer[128] = "";	// NTP Server
+  char timeTimeZone[128] = "";  // Geolocation timezone
+};
+
+Config myConfig;
+
+// Filesystem
 static MjpegClass mjpegClass;
 
 fs::File root;
 fs::File mjpegFile;
 
+// Miscellaneous
+
+uint8_t shiftX       = 50;
+uint8_t shiftY       = 20;
 uint8_t displayCount = 0;
 uint8_t theme        = 0;
+
 uint16_t brightness  = BRIGHTNESS;

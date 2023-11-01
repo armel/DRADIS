@@ -6,6 +6,7 @@
 #include "wav.h"
 #include "sprites.h"
 #include "functions.h"
+#include "iniLoader.h"
 
 // Setup
 void setup() {
@@ -13,15 +14,15 @@ void setup() {
   auto cfg = M5.config();
 
   cfg.clear_display = true;   // default=true. clear the screen when begin.
-  cfg.internal_imu  = true;   // default=true. use internal IMU.
-  cfg.internal_rtc  = true;   // default=true. use internal RTC.
   cfg.internal_spk  = true;   // default=true. use internal speaker.
-  cfg.internal_mic  = true;   // default=true. use internal microphone.
+  cfg.internal_rtc  = true;   // default=true. use internal RTC.
+  cfg.internal_imu  = false;  // default=true. use internal IMU.
+  cfg.internal_mic  = false;  // default=true. use internal microphone.
   cfg.external_imu  = false;  // default=false. use Unit Accel & Gyro.
   cfg.external_rtc  = false;  // default=false. use Unit RTC.
 
-  cfg.external_display.module_display = true;   // default=true. use ModuleDisplay
-  cfg.external_display.atom_display   = true;   // default=true. use AtomDisplay
+  cfg.external_display.module_display = false;  // default=true. use ModuleDisplay
+  cfg.external_display.atom_display   = false;  // default=true. use AtomDisplay
   cfg.external_display.unit_oled      = false;  // default=true. use UnitOLED
   cfg.external_display.unit_lcd       = false;  // default=true. use UnitLCD
   cfg.external_display.unit_rca       = false;  // default=false. use UnitRCA VideoOutput
@@ -32,7 +33,7 @@ void setup() {
   // Init Preferences
   preferences.begin(NAME);
   brightness = preferences.getUInt("brightness", BRIGHTNESS);
-  theme = preferences.getUInt("theme", 0);
+  theme      = preferences.getUInt("theme", 0);
 
   Serial.printf("Brightness = %d\n", brightness);
   Serial.printf("Theme = %d\n", theme);
@@ -56,82 +57,54 @@ void setup() {
   // Init Rand
   esp_random();
 
+  // Ini Loader
+  iniLoader();
+
   // Init Sprite
+  battlestarSprite.setColorDepth(8);
+  battlestarSprite.createSprite(17, 19);
+  battlestarSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
+  battlestarSprite.drawPng(battlestar, sizeof(battlestar), 0, 0, 17, 19);
+
   viperSprite.setColorDepth(8);
   viperSprite.createSprite(17, 20);
   viperSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   viperSprite.drawPng(viper, sizeof(viper), 0, 0, 17, 20);
-
-  viperLabelSprite.setColorDepth(2);
-  viperLabelSprite.createSprite(34, 10);
-  viperLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  viperLabelSprite.drawString("vipers", 0, 0);
 
   raptorSprite.setColorDepth(8);
   raptorSprite.createSprite(17, 20);
   raptorSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raptorSprite.drawPng(raptor, sizeof(raptor), 0, 0, 17, 20);
 
-  raptorLabelSprite.setColorDepth(2);
-  raptorLabelSprite.createSprite(40, 10);
-  raptorLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  raptorLabelSprite.drawString("raptors", 0, 0);
-
-  battlestarSprite.setColorDepth(8);
-  battlestarSprite.createSprite(17, 19);
-  battlestarSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  battlestarSprite.drawPng(battlestar, sizeof(battlestar), 0, 0, 17, 19);
-
-  battlestarLabelSprite.setColorDepth(2);
-  battlestarLabelSprite.createSprite(60, 10);
-  battlestarLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  battlestarLabelSprite.drawString("battlestar", 0, 0);
-
   colonial1Sprite.setColorDepth(8);
   colonial1Sprite.createSprite(16, 10);
   colonial1Sprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   colonial1Sprite.drawPng(colonial1, sizeof(colonial1), 0, 0, 16, 10);
-
-  colonial1LabelSprite.setColorDepth(2);
-  colonial1LabelSprite.createSprite(48, 10);
-  colonial1LabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  colonial1LabelSprite.drawString("colonial", 0, 0);
 
   colonial2Sprite.setColorDepth(8);
   colonial2Sprite.createSprite(16, 13);
   colonial2Sprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   colonial2Sprite.drawPng(colonial2, sizeof(colonial2), 0, 0, 16, 13);
 
-  colonial2LabelSprite.setColorDepth(2);
-  colonial2LabelSprite.createSprite(48, 10);
-  colonial2LabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  colonial2LabelSprite.drawString("colonial", 0, 0);
-
   raiderSprite.setColorDepth(8);
   raiderSprite.createSprite(19, 20);
   raiderSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   raiderSprite.drawPng(raider, sizeof(raider), 0, 0, 19, 20);
-
-  raiderLabelSprite.setColorDepth(2);
-  raiderLabelSprite.createSprite(40, 10);
-  raiderLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  raiderLabelSprite.drawString("raiders", 0, 0);
 
   unknownSprite.setColorDepth(8);
   unknownSprite.createSprite(19, 20);
   unknownSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
   unknownSprite.drawPng(unknown, sizeof(unknown), 0, 0, 19, 20);
 
-  unknownLabelSprite.setColorDepth(2);
-  unknownLabelSprite.createSprite(40, 10);
-  unknownLabelSprite.setPaletteColor(1, 0xFF0000U);  // Set palette
-  unknownLabelSprite.drawString("unkown", 0, 0);
-
   canvasSprite.setColorDepth(8);
-  canvasSprite.createSprite(220, 180);
+  if (ESP.getPsramSize() > 0) {
+    canvasSprite.createSprite(320 - (2 * shiftX), 220);
+  } else {
+    canvasSprite.createSprite(320 - (2 * shiftX), 180);
+  }
 
   clipSprite.setColorDepth(16);
-  
+
   // Init Sound
   auto spk_cfg = M5.Speaker.config();
 
@@ -145,7 +118,7 @@ void setup() {
   // Multitasking task for retreive button
   xTaskCreatePinnedToCore(button,    // Function to implement the task
                           "button",  // Name of the task
-                          4096,      // Stack size in words
+                          2048,      // Stack size in words
                           NULL,      // Task input parameter
                           4,         // Priority of the task
                           NULL,      // Task handle
