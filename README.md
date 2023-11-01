@@ -34,7 +34,7 @@ Remember to upload the FileSystem Image too (the `/data` folder content videos, 
 
 # Clock feature (only on ![fire](https://img.shields.io/badge/M5Stack-FIRE-orange) ![core2](https://img.shields.io/badge/M5Stack-CORE2-green) ![aws](https://img.shields.io/badge/M5Stack-AWS-orange) ![cores3](https://img.shields.io/badge/M5Stack-CORES3-purple))
 
-If you're using an M5Stack with __PSRAM memory__, you can activate a clock. Prepare a FAT32 formated micro SD card. Edit `DRADIS.ini and copy it at the root of the micro SD card.
+If you're using an M5Stack with __PSRAM memory__, you can activate a clock. Prepare a FAT32 formated micro SD card. Edit `[DRADIS.ini](https://github.com/armel/DRADIS/blob/main/ini/DRADIS.ini)` and copy it at the root of the micro SD card.
 
 This is what the `DRADIS.ini` file looks like:
 
