@@ -338,7 +338,7 @@ void boot() {
       Serial.println("Set local time");
       configTzTime(myConfig.timeTimeZone, myConfig.timeServer);
       setLocalTime();
-
+      viewClock = true;
       Serial.println("Wifi disconnect");
       WiFi.disconnect();
     } else {
@@ -359,7 +359,7 @@ void contact() {
   canvasSprite.fillSprite(0);
   // canvasSprite.drawRect(0, 0, 320 - (2 * shiftX), 220, TFT_BLUE);  // For debug
 
-  if (ESP.getPsramSize() > 0) {
+  if (viewClock) {
     labelSprite.deleteSprite();
     labelSprite.setColorDepth(2);
     labelSprite.createSprite(170, 40);
