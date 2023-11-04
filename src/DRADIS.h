@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // Version
-#define VERSION "1.3.0"
+#define VERSION "1.3.1"
 #define AUTHOR  "F4HWN"
 #define NAME    "DRADIS"
 
@@ -40,6 +40,7 @@ Preferences preferences;
 
 // RTC
 ESP32Time rtc;
+boolean viewClock = false;
 
 // Sprite
 LGFX_Sprite labelSprite(&M5.Display);
