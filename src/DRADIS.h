@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // Version
-#define VERSION "1.3.1"
+#define VERSION "1.3.2"
 #define AUTHOR  "F4HWN"
 #define NAME    "DRADIS"
 

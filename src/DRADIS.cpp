@@ -52,6 +52,10 @@ void setup() {
                                   NUM_LEDS);  // GRB ordering is assumed
   }
   FastLED.setBrightness(16);
+#else
+  FastLED.addLeds<WS2812, 5, GRB>(leds,
+                                  NUM_LEDS);  // GRB ordering is assumed
+  FastLED.setBrightness(32);
 #endif
 
   // Init Rand
@@ -124,15 +128,13 @@ void setup() {
                           NULL,      // Task handle
                           1);        // Core where the task should run
 
-#if BOARD != CORES3
   xTaskCreatePinnedToCore(cylon,    // Function to implement the task
                           "cylon",  // Name of the task
-                          1024,     // Stack size in words
+                          2048,     // Stack size in words
                           NULL,     // Task input parameter
                           4,        // Priority of the task
                           NULL,     // Task handle
                           1);       // Core where the task should run
-#endif
 
   // Boot
   boot();
